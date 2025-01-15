@@ -81,7 +81,8 @@ span {
   display: block;
   border-radius: 7px;
 }
-ion-icon{
+
+ion-icon {
   font-size: 28px;
   margin-right: 10px;
   margin-bottom: -5px;
@@ -95,7 +96,7 @@ ion-icon{
 
 .main-content {
   flex: 1;
-  padding:0 50px;
+  padding: 0 50px;
   margin-top: -20px;
 }
 
@@ -106,106 +107,66 @@ ion-icon{
   border-bottom: 2px solid #DFE4E9;
 }
 
-.form-group {
-  margin-bottom: 20px;
-  padding: 0 20px 0 0;
+.welcom-project {
+  border: 1.5px solid #E2E6F6;
+  border-radius: 10px;
+  background-color: #F2F4FC;
+  width: 90%;
+  padding: 40px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  font-size: 20px;
-  color:#414141 ;
-  
+.welcom-project h1 {
+  color: #f9a825;
+
 }
 
-input,
-textarea,
-select {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
+.welcom-project p {
+  color: #555558;
+
+}
+
+.btn-research {
+  width: 600px;
+  background: #fff;
+  margin: 20px 0 0;
   border-radius: 5px;
-  color: #d4d3d3;
+  border: 1.5px solid #DFE4E9;
+  margin-right: 20px;
+
 }
-.field{
-  border-bottom: 1px solid #ccc;
-}
-.group-visibility{
+.row{
   display: flex;
-  margin-top: 0;
-}
-.public{
-  color: green;
-}
-.private{
-  color: blue;
-}
-.text-project{
-  width: 83.5%;
-  
-}
-.text-visibility{
-  width: 40%;
-}
-#visibility{
-  width: 20%;
-  height: 40px;
-  margin-left: 70%;
-}
-textarea {
-  resize: vertical;
+  align-items: center;
+  padding: 10px 20px ;
 }
 
-button {
-  font-size: 15px;
-  border-radius: 5px;
-  cursor: pointer;
+.input-research{
+  flex: 1;
+  height: 50px;
+  background: transparent;
+  outline: 0;
+  border:0;
+  font-size: 18px;
+  color: #333;
 }
 
-.danger-zone {
-  border: 1.5px solid #ccc;
-  padding: 20px;
-  border-radius: 5px;
-  margin-bottom: 20px;
+.btn{
+  display: flex;
 }
-
-.danger{
-  margin-top: 40px;
+.btn-search{
+ background: transparent;
+ border: 0;
+ outline: 0;
 }
-.btn-danger {
-  padding: 0px 15px;
-  background-color:#fff;
-  border: 1.5px solid green;
-  color: green;
-}
-.btn-danger:hover{
-  border: 1.5px solid red;
-  color: red;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-}
-
-
-.btn-primary {
-  background-color: green;
-  color: white;
+.btn-add{
+  display: block;
   border: none;
-  padding: 15px 30px;
-  margin-bottom: 30px;
 }
-.btn-primary:hover{
-  background-color: rgb(3, 185, 3);
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-}
-
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-  }
+.btn-search .search-outline{
+width: 25px;
+color: #555;
+font-size: 22px;
+cursor: pointer;
 }
