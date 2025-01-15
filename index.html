@@ -1,11 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Management - Project Setting</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    
+  <header>
+    <div class="right">
+      <img src="logo.png" alt="Task Management Logo" class="logo">
+      <h1 class="h1-header">Task <span>Management</span></h1>
+    </div>
+    <div class="left">
+      <h2 class="h2-profile">Profile</h2>
+      <img src="image.png" alt="Profile Picture" class="logo-profile">
+    </div>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <nav>
+        <ul>
+          <li><a href="#" class="active-link"><ion-icon name="settings-outline"></ion-icon> Setting Project</a></li>
+          <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> New Project</a></li>
+          <li><a href="#"><ion-icon name="newspaper-outline"></ion-icon> Backlog</a></li>
+          <li><a href="#"><ion-icon name="calendar-outline"></ion-icon> Roadmap</a></li>
+          <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> Current Iteration</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1 class="project-setting">Project Settings</h1>
+      <section>
+        <form id="project-form">
+          <div class="form-group">
+            <label for="project-name">Project Name</label>
+            <input type="text" id="project-name" placeholder="Enter project name" required>
+          </div>
+          <div class="form-group">
+            <label for="project-description">Short Description</label>
+            <textarea id="project-description" placeholder="Provide a short description of this project." rows="4"></textarea>
+          </div>
+          <h3>Danger Zone</h3>
+          <div class="danger-zone">
+            <div class="field">
+              <label for="visibility">Visibility</label>
+              <div class="group-visibility">
+                <p class="text-visibility">This project currently</p>
+                <select id="visibility">
+                  <option value="public" class="public">Public</option>
+                  <option value="private" class="private">Private</option>
+                </select>
+              </div>
+            </div>
+            <label for="btn-danger"  class="danger">Close Project</label>
+             <div class="group-visibility">
+              <p class="text-project">Closing a project will disable workflows & remove it from list of open projects.</p>
+               <button type="button" class="btn-danger" id="close-project">Close Project</button>
+             </div>
+             <label for="btn-danger"class="danger" >Delete Project</label>
+             <div class="group-visibility">
+              <p class="text-project">Once you delete a project there is no going back. Please be certain.</p>
+              <button type="button" class="btn-danger" id="delete-project">Delete Project</button>
+             </div>
+          </div>
+          <button type="submit" class="btn-primary">Save Changes</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/script.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
