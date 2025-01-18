@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Management - Project Setting</title>
+  <link rel="stylesheet" href="../css/page-backlog.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <div class="right">
+      <img src="../image/logo.png" alt="Task Management Logo" class="logo">
+      <h1 class="h1-header">Task <span>Management</span></h1>
+    </div>
+    <div class="left">
+      <h2 class="h2-profile">Profile</h2>
+      <img src="../image/imglogo.png" alt="Profile Picture" class="logo-profile">
+    </div>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <nav>
+        <ul>
+          <li><a href="../page/page-setting.html"><ion-icon name="settings-outline"></ion-icon> Setting Project</a></li>
+          <li><a href="../page/page-new-project.html"><ion-icon name="document-text-outline"></ion-icon> New Project</a></li>
+          <li><a href="../page/page-backlog.html" class="active-link"><ion-icon name="newspaper-outline"></ion-icon> Backlog</a></li>
+          <li><a href="#"><ion-icon name="calendar-outline"></ion-icon> Roadmap</a></li>
+          <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> Current Iteration</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <h1 class="project-setting">Name Task</h1>
+        <header>
+          <div class="actions">
+            <input type="text" placeholder="Search...">
+            <button class="invite-btn">+ Invite team</button>
+          </div>
+        </header>
+        <section class="task-columns" id="todo">
+          <div class="task-column">
+            <div class="column-header">
+              <span class="dot todo"></span> Todo <span class="status">(0/5)</span>
+            </div>
+            <div class="task-items">
+              <!-- Task items will be dynamically added here -->
+            </div>
+            <button class="add-item">+ add item</button>
+          </div>
+          <div class="task-column " id="in-progress">
+            <div class="column-header">
+              <span class="dot in-progress"></span> In progress <span class="status">(0/5)</span>
+            </div>
+            <div class="task-items"></div>
+            <button class="add-item">+ add item</button>
+          </div>
+          <div class="task-column" id="done">
+            <div class="column-header">
+              <span class="dot done"></span> Done <span class="status">(0)</span>
+            </div>
+            <div class="task-items"></div>
+            <button class="add-item">+ add item</button>
+          </div>
+        </section>
+    </div>
+  
+    </main>
+  </div>
+  <script src="../js/page-backlog.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
+</html>
