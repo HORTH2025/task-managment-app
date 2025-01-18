@@ -1,0 +1,201 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    border-bottom: 2px solid #DFE4E9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    margin-bottom: 30px;
+  }
+  
+  .h1-header {
+    color: #f9a825;
+    font-size: 24px;
+  }
+  
+  span {
+    color: #007bff;
+  }
+  
+  .right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    width: 70px;
+    height: 70px;
+    margin-right: 10px;
+  }
+  
+  .left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-profile {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  
+  .h2-profile {
+    margin-right: 10px;
+  }
+  
+  .container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    background: #F1F3FC;
+    width: 20%;
+    height: 800px;
+    padding: 20px;
+    border-top-right-radius: 20px;
+    border-right: 2px solid #8d9fdab7;
+    border-top: 2px solid #8D9FDA;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar ul li {
+    margin-bottom: 15px;
+  }
+  
+  .sidebar ul li a {
+    text-decoration: none;
+    color: #607EDE;
+    font-size: 18px;
+    padding: 10px;
+    display: block;
+    border-radius: 7px;
+  }
+  
+  ion-icon {
+    font-size: 28px;
+    margin-right: 10px;
+    margin-bottom: -5px;
+  }
+  
+  .sidebar ul li a:hover,
+  .sidebar ul li a.active-link {
+    background: #8199E5;
+    color: #fff;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 0 50px;
+    margin-top: -20px;
+  }
+  
+  .project-setting {
+    margin-bottom: 20px;
+    color: #4260C0;
+    padding: 20px 0;
+    border-bottom: 2px solid #DFE4E9;
+  }
+  
+  .welcom-project {
+    border: 1.5px solid #E2E6F6;
+    border-radius: 10px;
+    background-color: #F2F4FC;
+    width: 90%;
+    padding: 40px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  
+  }
+  
+  .welcom-project h1 {
+    color: #f9a825;
+  
+  }
+  
+  .welcom-project p {
+    color: #555558;
+  
+  }
+  
+  .btn-research {
+    width:78%;
+    background: #fff;
+    margin: 20px 0 0;
+    border-radius: 5px;
+    border: 1.5px solid #DFE4E9;
+    margin-right: 20px;
+  
+  }
+  .row{
+    display: flex;
+    align-items: center;
+    padding: 10px 20px ;
+  }
+  
+  .input-research{
+    flex: 1;
+    height: 25px;
+    background: transparent;
+    outline: 0;
+    border:0;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .btn{
+    display: flex;
+  }
+  .btn-search{
+   background: transparent;
+   border: 0;
+   outline: 0;
+  }
+  .btn-add{
+    display: block;
+    border: none;
+    margin-top: 20px;
+    padding: 10px 25px;
+    font-size: 16px;
+    border-radius: 5px;
+    background: green;
+    color: #fff;
+  }
+  .btn-add:hover{
+    background: rgb(2, 180, 2);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  .btn-search .search-outline{
+  width: 25px;
+  color: #555;
+  font-size: 22px;
+  cursor: pointer;
+  }
+  .icon-add{
+    font-size: 18px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  table th,
+  table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  table th {
+    background-color: #f9f9f9;
+  }
