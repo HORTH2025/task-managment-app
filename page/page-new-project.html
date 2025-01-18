@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Management - Project Setting</title>
+  <link rel="stylesheet" href="../css/page-new-project.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="right">
+      <img src="../image/logo.png" alt="Task Management Logo" class="logo">
+      <h1 class="h1-header">Task <span>Management</span></h1>
+    </div>
+    <div class="left">
+      <h2 class="h2-profile">Profile</h2>
+      <img src="../image/imglogo.png" alt="Profile Picture" class="logo-profile">
+    </div>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <nav>
+        <ul>
+          <li><a href="../page/page-setting.html"><ion-icon name="settings-outline"></ion-icon> Setting Project</a></li>
+          <li><a href="../page/page-new-project.html" class="active-link"><ion-icon name="document-text-outline"></ion-icon> New Project</a></li>
+          <li><a href="../page/page-backlog.html"><ion-icon name="newspaper-outline"></ion-icon> Backlog</a></li>
+          <li><a href="#"><ion-icon name="calendar-outline"></ion-icon> Roadmap</a></li>
+          <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> Current Iteration</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <h1 class="project-setting">New Project</h1>
+      <div class="welcom-project">
+        <h1>Welcome to projects</h1>
+        <p>Built like a spreadsheet, project tables give you a live canvas to filter, sort, and group issues
+          and pull requests. Tailor them to your needs with custom fields and saved views.</p>
+      </div>
+      <div class="btn">
+        <div class="btn-research">
+          <div class="row">
+            <input type="text" id="input-box" placeholder="Search......." autocomplete="off" class="input-research">
+            <button class="btn-search"><ion-icon name="search-outline" class=""></ion-icon></button>
+          </div>
+        </div>
+       <button class="btn-add"><ion-icon name="add-outline" class="icon-add"></ion-icon>New Project</button>
+      </div>
+
+  <table id="project-table">
+    <thead>
+      <tr>
+        <th style="width: 10%;">N.</th>
+        <th>Project Name</th>
+        <th style="width: 20%;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    </main>
+  </div>
+  <script src="../js/page-new-project.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
+</html>
