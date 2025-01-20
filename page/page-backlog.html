@@ -35,20 +35,20 @@
     </aside>
 
     <main class="main-content">
-      <h1 class="project-setting">Name Task</h1>
-        <header>
+      <h1 class="project-setting" id="name-task">Name Task</h1>
+        <head>
           <div class="actions">
-            <input type="text" placeholder="Search...">
+            <input type="text" placeholder="Search... ">
             <button class="invite-btn">+ Invite team</button>
+            
           </div>
-        </header>
-        <section class="task-columns" id="todo">
-          <div class="task-column">
+        </head>
+        <section class="task-columns">
+          <div class="task-column"  id="todo">
             <div class="column-header">
               <span class="dot todo"></span> Todo <span class="status">(0/5)</span>
             </div>
             <div class="task-items">
-              <!-- Task items will be dynamically added here -->
             </div>
             <button class="add-item">+ add item</button>
           </div>
@@ -66,9 +66,9 @@
             <div class="task-items"></div>
             <button class="add-item">+ add item</button>
           </div>
+          <button class="add-column-btn"><ion-icon name="add-outline"  class="icon-sum"></ion-icon></button>
         </section>
     </div>
-  
     </main>
   </div>
   <script src="../js/page-backlog.js"></script>
@@ -77,5 +77,4 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
-
 </html>
