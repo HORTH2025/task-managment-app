@@ -43,31 +43,34 @@
             
           </div>
         </head>
-        <section class="task-columns">
-          <div class="task-column"  id="todo">
-            <div class="column-header">
-              <span class="dot todo"></span> Todo <span class="status">(0/5)</span>
+        <div class="taks">
+          <section class="task-columns">
+            <div class="task-column"  id="todo">
+              <div class="column-header">
+                <span class="dot todo"></span> Todo <span class="status">(0/5)</span>
+              </div>
+              <div class="task-items">
+              </div>
+              <button class="add-item">+ add item</button>
             </div>
-            <div class="task-items">
+            <div class="task-column " id="in-progress">
+              <div class="column-header">
+                <span class="dot in-progress"></span> In progress <span class="status">(0/5)</span>
+              </div>
+              <div class="task-items"></div>
+              <button class="add-item">+ add item</button>
             </div>
-            <button class="add-item">+ add item</button>
-          </div>
-          <div class="task-column " id="in-progress">
-            <div class="column-header">
-              <span class="dot in-progress"></span> In progress <span class="status">(0/5)</span>
+            <div class="task-column" id="done">
+              <div class="column-header">
+                <span class="dot done"></span> Done <span class="status">(0)</span>
+              </div>
+              <div class="task-items"></div>
+              <button class="add-item">+ add item</button>
             </div>
-            <div class="task-items"></div>
-            <button class="add-item">+ add item</button>
-          </div>
-          <div class="task-column" id="done">
-            <div class="column-header">
-              <span class="dot done"></span> Done <span class="status">(0)</span>
-            </div>
-            <div class="task-items"></div>
-            <button class="add-item">+ add item</button>
-          </div>
-          <button class="add-column-btn"><ion-icon name="add-outline"  class="icon-sum"></ion-icon></button>
-        </section>
+            <button class="add-column-btn"><ion-icon name="add-outline"  class="icon-sum"></ion-icon></button>
+          </section>
+        </div>
+        
     </div>
     </main>
   </div>

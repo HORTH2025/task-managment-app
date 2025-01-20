@@ -134,20 +134,26 @@ ion-icon {
   width: 30%;
   height: 50px;
 }
+
 .task-columns {
   display: flex;
   gap: 20px;
+  overflow-x: auto;
+  padding: 30px 0 ;
+  max-width: 100%; 
+  box-sizing: border-box;
 }
 
 .task-column {
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 5px;
-  flex: 1;
+  flex: 0 0 250px;
   display: flex;
   flex-direction: column;
   padding: 10px;
 }
+
 
 .column-header {
   display: flex;
@@ -243,6 +249,18 @@ ion-icon {
     cursor: pointer;
     font-size: 16px;
 }
+.task-item {
+  cursor: grab;
+}
+
+.task-item:active {
+  cursor: grabbing;
+  opacity: 0.7;
+}
+
+
+
+
 
 
  
