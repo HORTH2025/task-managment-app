@@ -51,8 +51,11 @@ form.addEventListener('submit', (event) => {
 
     // If all validations pass
     if (isValid) {
-        // alert('Sign up successful!');
-        // form.reset(); // Reset the form fields
+        // Store the email and password in localStorage
+        localStorage.setItem('userEmail', emailInput.value);
+        localStorage.setItem('userPassword', passwordInput.value);
+
+        // Redirect to the new project page
         window.location.href = "../page/page-new-project.html";
     }
 });

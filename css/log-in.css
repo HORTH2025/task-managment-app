@@ -81,9 +81,10 @@ button {
 
 button:hover {
     background-color: #0056b3;
+    color: #fff;
 }
 
-button a {
+.form-section button a {
     text-decoration: none;
     color: white;
     display: block;
