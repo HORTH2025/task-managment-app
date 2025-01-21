@@ -13,7 +13,8 @@
   <header>
     <div class="right">
       <img src="../image/logo.png" alt="Task Management Logo" class="logo">
-      <h1 class="h1-header">Task <span>Management</span></h1>
+      <h1 class="h1-header">Task <span class="text-header">Management</span></h1>
+
     </div>
     <div class="left">
       <h2 class="h2-profile">Profile</h2>
@@ -25,59 +26,62 @@
     <aside class="sidebar">
       <nav>
         <ul>
-          <li><a href="../page/page-setting.html"><ion-icon name="settings-outline"></ion-icon> Setting Project</a></li>
-          <li><a href="../page/page-new-project.html"><ion-icon name="document-text-outline"></ion-icon> New Project</a></li>
-          <li><a href="../page/page-backlog.html" class="active-link"><ion-icon name="newspaper-outline"></ion-icon> Backlog</a></li>
-          <li><a href="#"><ion-icon name="calendar-outline"></ion-icon> Roadmap</a></li>
-          <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> Current Iteration</a></li>
+          <li><a href="../page/page-setting.html"><ion-icon name="settings-outline"></ion-icon><span class="text">Setting
+                Project</span></a></li>
+          <li><a href="../page/page-new-project.html"><ion-icon name="document-text-outline"></ion-icon><span class="text">New
+                Project</span></a>
+          </li>
+          <li><a href="../page/page-backlog.html" class="active-link"><ion-icon
+                name="newspaper-outline"></ion-icon><span class="text">Backlog</span></a></li>
         </ul>
       </nav>
     </aside>
 
     <main class="main-content">
       <h1 class="project-setting" id="name-task">Name Task</h1>
-        <head>
-          <div class="actions">
-            <input type="text" placeholder="Search... ">
-            <button class="invite-btn">+ Invite team</button>
-            
-          </div>
-        </head>
-        <div class="taks">
-          <section class="task-columns">
-            <div class="task-column"  id="todo">
-              <div class="column-header">
-                <span class="dot todo"></span> Todo <span class="status">(0/5)</span>
-              </div>
-              <div class="task-items">
-              </div>
-              <button class="add-item">+ add item</button>
-            </div>
-            <div class="task-column " id="in-progress">
-              <div class="column-header">
-                <span class="dot in-progress"></span> In progress <span class="status">(0/5)</span>
-              </div>
-              <div class="task-items"></div>
-              <button class="add-item">+ add item</button>
-            </div>
-            <div class="task-column" id="done">
-              <div class="column-header">
-                <span class="dot done"></span> Done <span class="status">(0)</span>
-              </div>
-              <div class="task-items"></div>
-              <button class="add-item">+ add item</button>
-            </div>
-            <button class="add-column-btn"><ion-icon name="add-outline"  class="icon-sum"></ion-icon></button>
-          </section>
+
+      <head>
+        <div class="actions">
+          <input type="text" placeholder="Search... ">
+          <button class="invite-btn">+ Invite team</button>
+
         </div>
-        
-    </div>
-    </main>
+      </head>
+      <div class="taks">
+        <section class="task-columns">
+          <div class="task-column" id="todo">
+            <div class="column-header">
+              <span class="dot todo"></span> Todo
+            </div>
+            <div class="task-items">
+            </div>
+            <button class="add-item">+ add item</button>
+          </div>
+          <div class="task-column " id="in-progress">
+            <div class="column-header">
+              <span class="dot in-progress"></span> In progress
+            </div>
+            <div class="task-items"></div>
+            <button class="add-item">+ add item</button>
+          </div>
+          <div class="task-column" id="done">
+            <div class="column-header">
+              <span class="dot done"></span> Done
+            </div>
+            <div class="task-items"></div>
+            <button class="add-item">+ add item</button>
+          </div>
+          <button class="add-column-btn"><ion-icon name="add-outline" class="icon-sum"></ion-icon></button>
+        </section>
+      </div>
+
+  </div>
+  </main>
   </div>
   <script src="../js/page-backlog.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
+
 </html>

@@ -1,35 +1,73 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Invite Team Member
-    const inviteButton = document.querySelector(".invite-btn");
-    if (inviteButton) {
-        inviteButton.addEventListener("click", () => {
-            Swal.fire({
-                title: "Invite Team Member",
-                input: "email",
-                inputLabel: "Enter the email address of the team member:",
-                inputPlaceholder: "email@example.com",
-                showCancelButton: true,
-                confirmButtonText: "Send Invitation",
-                cancelButtonText: "Cancel",
-                inputValidator: (email) => {
-                    if (!email) return "You need to enter an email address!";
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    return emailRegex.test(email) ? null : "Please enter a valid email address!";
-                },
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Invitation Sent",
-                        text: `An invitation has been sent to ${result.value}`,
+    // Invite Team Member
+const inviteButton = document.querySelector(".invite-btn");
+if (inviteButton) {
+    inviteButton.addEventListener("click", () => {
+        Swal.fire({
+            title: "Invite Team Member",
+            input: "email",
+            inputLabel: "Enter the email address of the team member:",
+            inputPlaceholder: "email@example.com",
+            showCancelButton: true,
+            confirmButtonText: "Send Invitation",
+            cancelButtonText: "Cancel",
+            inputValidator: (email) => {
+                if (!email) return "You need to enter an email address!";
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email) ? null : "Please enter a valid email address!";
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Send request to the back-end
+                fetch("http://localhost:8080/api/invite", { // Fixed the URL
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: result.value,
+                        projectId: "123456", // Replace with actual project ID
+                    }),
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then((data) => {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Invitation Sent",
+                                text: `An invitation has been sent to ${result.value}`,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: data.message || "Something went wrong!",
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: error.message || "Failed to send invitation. Please try again.",
+                        });
+                        console.error("Error:", error);
                     });
-                }
-            });
+            }
         });
-    }
+    });
+}
+
+
 
     // Set project name
-    const projectDropdown = document.getElementById("project-dropdown"); // Example dropdown element
+    const projectDropdown = document.getElementById("project-dropdown");
     const nameTaskElement = document.getElementById("name-task");
 
     // Populate selected project name on page load
@@ -53,209 +91,218 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-// Generalized function for task columns
-function setupTaskColumn(columnSelector, columnId) {
-    const column = document.querySelector(columnSelector);
-    if (!column) return;
+    // Generalized function for task columns
+    // Generalized function for task columns
+    function setupTaskColumn(columnSelector, columnId) {
+        const column = document.querySelector(columnSelector);
+        if (!column) return;
 
-    const addButton = column.querySelector(".add-item");
-    const taskItems = column.querySelector(".task-items");
+        const addButton = column.querySelector(".add-item");
+        const taskItems = column.querySelector(".task-items");
 
-    // Load tasks from localStorage
-    const savedTasks = JSON.parse(localStorage.getItem(`tasks-${columnId}`)) || [];
-    savedTasks.forEach((taskData) => {
-        createTaskItem(taskData.name, taskData.status, taskItems, columnId);
-    });
-
-    // Add task button
-    if (addButton) {
-        addButton.addEventListener("click", () => {
-            Swal.fire({
-                title: "Add New Task",
-                input: "text",
-                inputLabel: "Enter task name:",
-                inputPlaceholder: "Task name",
-                showCancelButton: true,
-                confirmButtonText: "Add Task",
-                cancelButtonText: "Cancel",
-                inputValidator: (value) => (value ? null : "Task name cannot be empty!"),
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    createTaskItem(result.value, "active", taskItems, columnId);
-                }
-            });
+        // Load tasks for this specific column from localStorage
+        const savedTasks = JSON.parse(localStorage.getItem(`tasks-${columnId}`)) || [];
+        savedTasks.forEach((taskData) => {
+            createTaskItem(taskData.name, taskData.status, taskItems, columnId);
         });
-    }
 
-    // Create and add task
-    function createTaskItem(taskName, status, taskItems, columnId) {
-        // Generate a unique ID for the task item
-        const taskId = `task-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        // Add task button
+        if (addButton) {
+            addButton.addEventListener("click", () => {
+                Swal.fire({
+                    title: "Add New Task",
+                    input: "text",
+                    inputLabel: "Enter task name:",
+                    inputPlaceholder: "Task name",
+                    showCancelButton: true,
+                    confirmButtonText: "Add Task",
+                    cancelButtonText: "Cancel",
+                    inputValidator: (value) => (value ? null : "Task name cannot be empty!"),
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        createTaskItem(result.value, "active", taskItems, columnId);
+                    }
+                });
+            });
+        }
 
-        // Create the task item element
-        const task = document.createElement("div");
-        task.className = `task-item ${status}`;
-        task.id = taskId; // Set the unique ID
-        task.draggable = true;
-        task.innerHTML = `
+        // Create and add task
+        function createTaskItem(taskName, status, taskItems, columnId) {
+            // Generate a unique ID for the task item
+            const taskId = `task-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+            // Create the task item element
+            const task = document.createElement("div");
+            task.className = `task-item ${status}`;
+            task.id = taskId;
+            task.draggable = true;
+            task.innerHTML = `
             <span>${taskName}</span>
-            <button class="delete-btn"><ion-icon name="trash-outline"></ion-icon></button>
-            <span class="task-status">${status === "closed" ? "✔" : ""}</span>
+            <span class="task-status" style="font-size:15px; margin-right:20px; color:green;">
+                ${status === "closed" ? "✔" : ""}
+            </span>
+            <ion-icon name="ellipsis-vertical-outline" class="options-btn" style="font-size:20px; margin-left:0px;"></ion-icon>
         `;
 
-        // Append the new task to the taskItems container
-        taskItems.appendChild(task);
+            // Append the new task to the taskItems container
+            taskItems.appendChild(task);
 
-        // Handle click on task item
-        task.addEventListener("click", () => {
-            Swal.fire({
-                title: "Task Options",
-                input: "radio",
-                inputOptions: {
-                    comment: "Add Comment",
-                    changeName: "Change Name",
-                    closeTask: "Close Task",
-                },
-                inputLabel: "Choose an option:",
-                inputValidator: (value) => {
-                    if (!value) return "You need to choose an option!";
-                },
-                showCancelButton: true,
-                confirmButtonText: "Proceed",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const selectedOption = result.value;
+            // Add event listeners for task options
+            const optionsBtn = task.querySelector(".options-btn");
+            optionsBtn.addEventListener("click", () => {
+                Swal.fire({
+                    title: "Task Options",
+                    html: `
+                    <button id="comment-btn" class="swal-btn">Comment</button>
+                    <button id="edit-name-btn" class="swal-btn">Edit Name</button>
+                    <button id="close-task-btn" class="swal-btn">Close Task</button>
+                    <button id="delete-btn" class="swal-btn">Delete</button>
+                `,
+                    showConfirmButton: false,
+                    showCancelButton: true,
+                    cancelButtonText: "Cancel",
+                    didRender: () => {
+                        document.getElementById("comment-btn").addEventListener("click", () => {
+                            Swal.close();
+                            Swal.fire({
+                                title: "Add Comment",
+                                input: "textarea",
+                                inputLabel: "Enter your comment:",
+                                inputPlaceholder: "Write something...",
+                                showCancelButton: true,
+                                confirmButtonText: "Add Comment",
+                            }).then((commentResult) => {
+                                if (commentResult.isConfirmed) {
+                                    const comment = document.createElement("div");
+                                    comment.className = "task-comment";
+                                    comment.textContent = commentResult.value;
+                                    task.appendChild(comment);
+                                    saveTasksToLocalStorage(columnId);
+                                }
+                            });
+                        });
 
-                    if (selectedOption === "comment") {
-                        Swal.fire({
-                            title: "Add Comment",
-                            input: "textarea",
-                            inputLabel: "Enter your comment:",
-                            inputPlaceholder: "Write something...",
-                            showCancelButton: true,
-                            confirmButtonText: "Add Comment",
-                        }).then((commentResult) => {
-                            if (commentResult.isConfirmed) {
-                                const comment = document.createElement("div");
-                                comment.className = "task-comment";
-                                comment.textContent = commentResult.value;
-                                task.appendChild(comment);
-                                saveTasksToLocalStorage();
-                            }
+                        document.getElementById("edit-name-btn").addEventListener("click", () => {
+                            Swal.close();
+                            Swal.fire({
+                                title: "Change Task Name",
+                                input: "text",
+                                inputLabel: "New task name:",
+                                inputValue: taskName,
+                                inputPlaceholder: "Enter new name",
+                                showCancelButton: true,
+                                confirmButtonText: "Save",
+                                inputValidator: (value) => (value ? null : "Task name cannot be empty!"),
+                            }).then((nameResult) => {
+                                if (nameResult.isConfirmed) {
+                                    taskName = nameResult.value;
+                                    task.querySelector("span").textContent = taskName;
+                                    saveTasksToLocalStorage(columnId);
+                                }
+                            });
                         });
-                    } else if (selectedOption === "changeName") {
-                        Swal.fire({
-                            title: "Change Task Name",
-                            input: "text",
-                            inputLabel: "New task name:",
-                            inputValue: taskName,
-                            inputPlaceholder: "Enter new name",
-                            showCancelButton: true,
-                            confirmButtonText: "Save",
-                            inputValidator: (value) => (value ? null : "Task name cannot be empty!"),
-                        }).then((nameResult) => {
-                            if (nameResult.isConfirmed) {
-                                taskName = nameResult.value;
-                                task.querySelector("span").textContent = taskName;
-                                saveTasksToLocalStorage();
-                            }
+
+                        document.getElementById("close-task-btn").addEventListener("click", () => {
+                            Swal.close();
+                            Swal.fire({
+                                title: "Are you sure?",
+                                text: "This task will be marked as closed.",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonText: "Yes, close it!",
+                                cancelButtonText: "No, keep it",
+                            }).then((closeResult) => {
+                                if (closeResult.isConfirmed) {
+                                    task.classList.add("closed");
+                                    task.querySelector(".task-status").textContent = "✔";
+                                    saveTasksToLocalStorage(columnId);
+                                    Swal.fire("Closed!", "Your task has been marked as closed.", "success");
+                                }
+                            });
                         });
-                    } else if (selectedOption === "closeTask") {
-                        Swal.fire({
-                            title: "Are you sure?",
-                            text: "This task will be marked as closed.",
-                            icon: "warning",
-                            showCancelButton: true,
-                            confirmButtonText: "Yes, close it!",
-                            cancelButtonText: "No, keep it",
-                        }).then((closeResult) => {
-                            if (closeResult.isConfirmed) {
-                                task.classList.add("closed");
-                                task.querySelector(".task-status").textContent = "✔ Verified";
-                                saveTasksToLocalStorage();
-                                Swal.fire("Closed!", "Your task has been marked as closed.", "success");
-                            }
+
+                        document.getElementById("delete-btn").addEventListener("click", () => {
+                            Swal.close();
+                            Swal.fire({
+                                title: "Are you sure?",
+                                text: "This task will be permanently deleted.",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonText: "Yes, delete it!",
+                                cancelButtonText: "No, keep it",
+                            }).then((deleteResult) => {
+                                if (deleteResult.isConfirmed) {
+                                    task.remove();
+                                    saveTasksToLocalStorage(columnId);
+                                    Swal.fire("Deleted!", "Your task has been deleted.", "success");
+                                }
+                            });
                         });
-                    }
-                }
+                    },
+                });
             });
-        });
 
-        // Delete task functionality
-        task.querySelector(".delete-btn").addEventListener("click", () => {
-            task.remove();
-            saveTasksToLocalStorage();
-            updateTaskCount();
-        });
+            // Drag-and-drop functionality
+            task.addEventListener("dragstart", () => {
+                task.classList.add("dragging");
+            });
 
-        // Drag-and-drop functionality
-        task.addEventListener("dragstart", (e) => {
-            e.dataTransfer.setData("text/plain", JSON.stringify({ taskName, columnId, taskId, status }));
-            task.classList.add("dragging");
-        });
+            task.addEventListener("dragend", () => {
+                task.classList.remove("dragging");
+            });
 
-        task.addEventListener("dragend", () => task.classList.remove("dragging"));
-
-        // Save tasks
-        saveTasksToLocalStorage();
-        updateTaskCount();
-    }
-
-    // Save tasks to localStorage
-    function saveTasksToLocalStorage() {
-        const tasks = Array.from(taskItems.querySelectorAll(".task-item")).map((task) => ({
-            name: task.querySelector("span").textContent,
-            status: task.classList.contains("closed") ? "closed" : "active",
-        }));
-        localStorage.setItem(`tasks-${columnId}`, JSON.stringify(tasks));
-    }
-
-    // Drag-over and drop
-    column.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        const draggingTask = document.querySelector(".dragging");
-        const afterElement = getDragAfterElement(taskItems, e.clientY);
-        if (afterElement == null) {
-            taskItems.appendChild(draggingTask);
-        } else {
-            taskItems.insertBefore(draggingTask, afterElement);
+            // Save tasks to localStorage for the current column
+            saveTasksToLocalStorage(columnId);
         }
-    });
 
-    column.addEventListener("drop", (e) => {
-        e.preventDefault();
-        const draggingTask = document.querySelector(".dragging");
-        if (draggingTask) {
-            draggingTask.classList.remove("dragging");
-            saveTasksToLocalStorage();
-            updateTaskCount();
+        // Save tasks to localStorage for this specific column
+        function saveTasksToLocalStorage(columnId) {
+            const tasks = Array.from(taskItems.querySelectorAll(".task-item")).map((task) => ({
+                name: task.querySelector("span").textContent.trim(),
+                status: task.classList.contains("closed") ? "closed" : "active",
+            }));
+            localStorage.setItem(`tasks-${columnId}`, JSON.stringify(tasks));
         }
-    });
 
-    // Update task count
-    function updateTaskCount() {
-        const count = taskItems.querySelectorAll(".task-item").length;
-        const status = column.querySelector(".status");
-        if (status) status.textContent = `(${count})`;
-    }
+        // Drag-over and drop
+        column.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            const draggingTask = document.querySelector(".dragging");
+            const afterElement = getDragAfterElement(taskItems, e.clientY);
+            if (afterElement == null) {
+                taskItems.appendChild(draggingTask);
+            } else {
+                taskItems.insertBefore(draggingTask, afterElement);
+            }
+        });
 
-    // Get the element after which the dragged task should be placed
-    function getDragAfterElement(container, y) {
-        const draggableElements = [...container.querySelectorAll(".task-item:not(.dragging)")];
-        return draggableElements.reduce(
-            (closest, child) => {
-                const box = child.getBoundingClientRect();
-                const offset = y - box.top - box.height / 2;
-                if (offset < 0 && offset > closest.offset) {
-                    return { offset, element: child };
-                } else {
-                    return closest;
-                }
-            },
-            { offset: Number.NEGATIVE_INFINITY }
-        ).element;
+        column.addEventListener("drop", (e) => {
+            e.preventDefault();
+            const draggingTask = document.querySelector(".dragging");
+            if (draggingTask) {
+                draggingTask.classList.remove("dragging");
+                saveTasksToLocalStorage(columnId); // Save tasks for the current column after dragging
+                updateTaskCount();
+            }
+        });
+
+        // Get the element after which the dragged task should be placed
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll(".task-item:not(.dragging)")];
+            return draggableElements.reduce(
+                (closest, child) => {
+                    const box = child.getBoundingClientRect();
+                    const offset = y - box.top - box.height / 2;
+                    if (offset < 0 && offset > closest.offset) {
+                        return { offset, element: child };
+                    } else {
+                        return closest;
+                    }
+                },
+                { offset: Number.NEGATIVE_INFINITY }
+            ).element;
+        }
     }
-}
 
 
     // Add new column and save in localStorage
@@ -289,11 +336,11 @@ function setupTaskColumn(columnSelector, columnId) {
             newColumn.className = "task-column";
             newColumn.id = id;
             newColumn.innerHTML = `
-        <div class="column-header">
-            <span class="dot ${name.toLowerCase()}"></span> 
-            <span class="column-name">${name}</span> 
-            <span class="status">(${tasks.length})</span>
-            <button class="column-actions" style="border: none; margin-left:70px; background-color:#f9f9f9;">
+        <div class="column-header" style="margin-top:-1px;">
+        <img src="../image/round-circle.png" class="circle" style="width:11px; height: 11px; border-radius: 50%; margin-top:-5px;">
+            <span class="dot ${name.toLowerCase()}" style="margin-top:-5px;"></span> 
+            <span class="column-name" style="margin-top:-1px;">${name}</span>
+            <button class="column-actions" style="border: none; margin-left:100px; background-color:#f9f9f9;">
                 <ion-icon name="ellipsis-horizontal-outline" 
                 style="color:black; margin-left: 50px;"></ion-icon>
     </button>
@@ -414,7 +461,6 @@ function setupTaskColumn(columnSelector, columnId) {
             });
         };
 
-
         // Add event listener for adding new column
         addColumnButton.addEventListener("click", () => {
             Swal.fire({
@@ -444,5 +490,4 @@ function setupTaskColumn(columnSelector, columnId) {
     setupTaskColumn("#todo");
     setupTaskColumn("#in-progress");
     setupTaskColumn("#done");
-    
 })

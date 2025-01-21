@@ -18,9 +18,9 @@ header {
   font-size: 24px;
 }
 
-span {
+.text-header {
   color: #007bff;
-  
+
 }
 
 .right {
@@ -62,6 +62,7 @@ span {
   border-top-right-radius: 20px;
   border-right: 2px solid #8d9fdab7;
   border-top: 2px solid #8D9FDA;
+  transition: transform 0.3s ease;
 }
 
 .sidebar ul {
@@ -81,6 +82,15 @@ span {
   padding: 10px;
   display: block;
   border-radius: 7px;
+}
+
+.sidebar ul li a .text {
+  color: #8199E5;
+}
+
+.sidebar ul li a .text:hover,
+.sidebar ul li a .text.active-link {
+  color: #fff;
 }
 
 ion-icon {
@@ -111,7 +121,7 @@ ion-icon {
 .actions {
   display: flex;
   align-items: center;
-  width:60%;
+  width: 60%;
   margin-bottom: 20px;
 }
 
@@ -121,7 +131,8 @@ ion-icon {
   border: 1px solid #ddd;
   border-radius: 5px;
   width: 100%;
-  font-size:17px; ;
+  font-size: 17px;
+  ;
 }
 
 .invite-btn {
@@ -139,8 +150,8 @@ ion-icon {
   display: flex;
   gap: 20px;
   overflow-x: auto;
-  padding: 30px 0 ;
-  max-width: 100%; 
+  padding: 30px 0;
+  max-width: 100%;
   box-sizing: border-box;
 }
 
@@ -206,49 +217,41 @@ ion-icon {
 }
 
 .task-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    margin-bottom: 5px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 
-  .task-item .delete-btn {
-    background: none;
-    border: none;
-    color: #ff5f5f;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .task-item .delete-btn ion-icon {
-    font-size: 18px;
-  }
-  .add-column-btn{
-    width: 40px;
-    height: 40px;
-    border-radius: 7px;
-    background: #fff;
-    border: 1.5px solid #DFE4E9;
-
-  }
-  .icon-sum{
-    font-size: 20px;
-    margin-left: 3px;
-    color: #aaacae;
-  }
-  
-  .delete-column-btn {
-    background: none;
-    border: none;
-    color: red;
-    cursor: pointer;
-    font-size: 16px;
 }
+
+
+.add-column-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 7px;
+  background: #fff;
+  border: 1.5px solid #DFE4E9;
+
+}
+
+.icon-sum {
+  font-size: 20px;
+  margin-left: 3px;
+  color: #aaacae;
+}
+
+.delete-column-btn {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-size: 16px;
+}
+
 .task-item {
   cursor: grab;
 }
@@ -258,9 +261,121 @@ ion-icon {
   opacity: 0.7;
 }
 
+.swal-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
+.swal-btn:hover {
+  background-color: #e0e0e0;
+}
 
+/* Responsive styles for iPad Air 4 */
+@media screen and (max-width: 820px) {
+  .container {
+    flex-direction: column;
+  }
 
+  .sidebar {
+    width: 40px;
+    position: fixed;
+    top: 10%;
+    left: 0;
+    height: 100%;
+    padding: 10px;
+  }
+  .text{
+    display: none;
+  }
+  .h2-profile{
+    display: none;
+    
+  }
+  .logo-profile{
+    display: none;
+  }
 
+  .main-content {
+    margin-left: 80px;
+    padding: 0 10px 0 30px;
+  }
 
+  .task-columns {
+    flex-direction: column;
+    padding: 20px 0;
+  }
+
+  .task-column {
+    flex: 0 0 100%;
+  }
+}
+
+/* Responsive styles for iPhone Mini 12 */
+@media screen and (max-width: 600px) {
+  header {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .h1-header {
+    font-size: 20px;
+  }
+
+  .sidebar {
+    width: 50px; 
+    height: 100%;
+    padding: 10px;
+  }
+
+  .logo {
+    width: 40px;
+    height: 40px;
+  }
  
+
+  .main-content {
+    padding: 15px;
+    margin-top: 10px;
+    margin-left: 60px; 
+  }
+  #name-task{
+    text-align: center;
+  }
+  .actions{
+    width: 100%;
+    margin-bottom: 0px;
+  }
+
+  .actions input {
+    font-size: 15px;
+  }
+  .invite-btn {
+    font-size: 15px;
+    width: 100%;
+    height: px;
+  }
+
+  .task-columns {
+    flex-direction: column;
+    padding: 20px 0;
+  }
+
+  .task-column {
+    flex: 0 0 100%;
+    margin-bottom: 15px;
+  }
+
+  .add-item {
+    font-size: 16px;
+  }
+
+  .swal-btn {
+    font-size: 14px;
+  }
+}
