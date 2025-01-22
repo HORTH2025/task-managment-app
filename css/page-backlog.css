@@ -84,12 +84,7 @@ header {
   border-radius: 7px;
 }
 
-.sidebar ul li a .text {
-  color: #8199E5;
-}
-
-.sidebar ul li a .text:hover,
-.sidebar ul li a .text.active-link {
+.sidebar .text:hover {
   color: #fff;
 }
 
@@ -285,7 +280,7 @@ ion-icon {
   .sidebar {
     width: 40px;
     position: fixed;
-    top: 10%;
+    top: 8%;
     left: 0;
     height: 100%;
     padding: 10px;
@@ -300,10 +295,18 @@ ion-icon {
   .logo-profile{
     display: none;
   }
+  .actions{
+    width: 100%;
+    margin-bottom: 0px;
+  }
+  .invite-btn {
+    font-size: 17px;
+    width: 40%;
+  }
 
   .main-content {
-    margin-left: 80px;
-    padding: 0 10px 0 30px;
+    margin-left: 50px;
+    padding: 0 20px 0 30px;
   }
 
   .task-columns {
@@ -328,7 +331,7 @@ ion-icon {
   }
 
   .sidebar {
-    width: 50px; 
+    width: 40px; 
     height: 100%;
     padding: 10px;
   }
@@ -337,20 +340,20 @@ ion-icon {
     width: 40px;
     height: 40px;
   }
- 
 
   .main-content {
     padding: 15px;
     margin-top: 10px;
     margin-left: 60px; 
   }
+  .invite-btn {
+    font-size: 15px;
+    width: 100%;
+  }
   #name-task{
     text-align: center;
   }
-  .actions{
-    width: 100%;
-    margin-bottom: 0px;
-  }
+
 
   .actions input {
     font-size: 15px;
@@ -358,7 +361,6 @@ ion-icon {
   .invite-btn {
     font-size: 15px;
     width: 100%;
-    height: px;
   }
 
   .task-columns {

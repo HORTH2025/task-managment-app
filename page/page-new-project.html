@@ -13,7 +13,7 @@
   <header>
     <div class="right">
       <img src="../image/logo.png" alt="Task Management Logo" class="logo">
-      <h1 class="h1-header">Task <span>Management</span></h1>
+      <h1 class="h1-header">Task <span class="text-header">Management</span></h1>
     </div>
     <div class="left">
       <h2 class="h2-profile">Profile</h2>
@@ -25,11 +25,11 @@
     <aside class="sidebar">
       <nav>
         <ul>
-          <li><a href="../page/page-setting.html"><ion-icon name="settings-outline"></ion-icon> Setting Project</a></li>
-          <li><a href="../page/page-new-project.html" class="active-link"><ion-icon name="document-text-outline"></ion-icon> New Project</a></li>
-          <li><a href="../page/page-backlog.html"><ion-icon name="newspaper-outline"></ion-icon> Backlog</a></li>
-          <li><a href="#"><ion-icon name="calendar-outline"></ion-icon> Roadmap</a></li>
-          <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> Current Iteration</a></li>
+          <li><a href="../page/page-setting.html"><ion-icon name="settings-outline"></ion-icon><span class="text">Setting
+            Project</span></a></li>
+          <li><a href="../page/page-new-project.html" class="active-link"><ion-icon name="document-text-outline"></ion-icon><span class="text">New
+            Project</span></a></li>
+          <li><a href="../page/page-backlog.html"><ion-icon name="newspaper-outline"></ion-icon><span class="text">Backlog</span></a></li>
         </ul>
       </nav>
     </aside>
@@ -45,7 +45,7 @@
         <div class="btn-research">
           <div class="row">
             <input type="text" id="input-box" placeholder="Search......." autocomplete="off" class="input-research">
-            <button class="btn-search"><ion-icon name="search-outline"></ion-icon></button>
+            <button class="btn-search"><ion-icon name="search-outline" class="search-outline"></ion-icon></button>
           </div>
         </div>
         <button class="btn-add"><ion-icon name="add-outline" class="icon-add"></ion-icon> New Project</button>
@@ -54,9 +54,9 @@
       <table id="project-table">
         <thead>
           <tr>
-            <th style="width: 10%;">N.</th>
+            <th style="width: 10%;" class="th-n">N.</th>
             <th>Project Name</th>
-            <th style="width: 25%;">Actions</th>
+            <th style="width: 25%;" class="th-actions">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -71,5 +71,4 @@
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
-
 </html>

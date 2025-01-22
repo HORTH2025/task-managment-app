@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Invite Team Member
-    // Invite Team Member
 const inviteButton = document.querySelector(".invite-btn");
 if (inviteButton) {
     inviteButton.addEventListener("click", () => {
