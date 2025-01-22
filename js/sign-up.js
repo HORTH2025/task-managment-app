@@ -1,4 +1,5 @@
 // Select the form and its input fields
+//
 const form = document.querySelector('form');
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
