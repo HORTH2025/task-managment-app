@@ -25,9 +25,19 @@ body {
     background: #ffffff;
 }
 
-.form-section h1,p,h2 {
-    color: #333333;
-    text-align: center;
+h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+h2 {
+    margin-top: 0px;
+}
+
+p {
+    color: #666;
+    margin-bottom: 15px;
 }
 .form-section a {
     margin-top: 20px;
@@ -105,4 +115,60 @@ button:hover {
     max-width: 80%;
     height: auto;
     border-radius: 10px;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) { /* For tablets */
+    .container {
+        flex-direction: column; /* Stack sections vertically */
+    }
+
+    .illustration-section {
+        order: 1; /* Move illustration below the form */
+        height: 50%; /* Adjust height for better layout */
+        padding: 20px; /* Add padding for spacing */
+    }
+
+    .illustration-section img {
+        max-width: 100%; /* Ensure image scales properly */
+        height: auto;
+    }
+
+    .form-section {
+        order: 2; /* Form section comes first */
+        height: 50%;
+        padding: 20px;
+    }
+
+    form {
+        max-width: 90%; /* Reduce max width for smaller screens */
+    }
+}
+@media (max-width: 768px) { 
+    h1, h2, p {
+        font-size: 1rem;
+    }
+    h1{
+        margin-top: 74px;
+        
+    }
+    label {
+        font-size: 0.8rem;
+    }
+
+    button {
+        font-size: 0.8rem;
+    }
+
+    .form-section {
+        padding: 5px;
+    }
+
+    .illustration-section img {
+        max-width: 80%;
+    }
+    .container {
+        flex-direction: column; /* Stack sections vertically */
+    }
+
 }
