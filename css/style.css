@@ -54,57 +54,21 @@ header .nav-buttons {
 
 header .nav-buttons button {
     padding: 10px 20px;
-<<<<<<< HEAD
-    border: 1px solid #607EDE;
-=======
     border: 2px solid #007aff;
->>>>>>> task-backlog-page
     border-radius: 30px;
     cursor: pointer;
     font-size: 14px;
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> task-backlog-page
 header .nav-buttons .login {
     background-color: transparent;
     color: #007aff;
 }
 
-<<<<<<< HEAD
-header .nav-buttons .login:hover{
-    background: #007aff;
-}
-header .nav-buttons .login a:hover{
-    color: #fff;
-}
-
-header .nav-buttons .get-started {
-    background-color: #fff;
-    border: 1px solid #607EDE;
-}
-
-header .nav-buttons .get-started a{
-    color: #000;
-}
-
-header .nav-buttons .get-started:hover{
-    background: #007aff;
-    color: #fff;
-}
-header .nav-buttons .get-started a:hover{
-    color: #fff;
-}
-
-
-=======
 header .nav-buttons .get-started {
     background-color: #007aff;
     color: #fff;
 }
->>>>>>> task-backlog-page
 
 .hero {
     text-align: center;
