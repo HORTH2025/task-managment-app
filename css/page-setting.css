@@ -22,14 +22,6 @@
 #wrapper {
   overflow-x: hidden;
   background-color: #bec7e6;
-  /* background-image: linear-gradient(
-    to right,
-    #ddd,
-    ##ddd,
-    #cbf7e4,
-    #d4f8ea,
-    #ddfaef
-  ); */
 }
 #management{
   display: flex;
@@ -93,28 +85,7 @@
   border-radius: 5px;
   margin-bottom: 20px;
 }
-.btn-danger {
-  padding: 0px 15px;
-  background-color: #fff;
-  border: 1.5px solid green;
-  color: green;
-}
-.btn-danger:hover {
-  border: 1.5px solid red;
-  color: red;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-}
-.btn-primary {
-  background-color: green;
-  color: white;
-  border: none;
-  padding: 15px 30px;
-  margin-bottom: 30px;
-}
-.btn-primary:hover {
-  background-color: rgb(3, 185, 3);
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-}
+
 
 #profileImage:hover {
   transform: scale(1.1);
@@ -143,19 +114,8 @@
   width: 300px;
   height: 400px;
 }
-.modal-header{
-  background: #607EDE;
-}
-.btn{
-  background:#607EDE;
-  border: none;
-  padding: 8px;
 
-}
-.btn:hover{ 
-  background:#607EDE;
-  border: none;
-}
+
 .btn-danger a{
   text-decoration: none;
   color: #000;

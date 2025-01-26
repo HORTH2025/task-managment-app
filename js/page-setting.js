@@ -1,4 +1,4 @@
- const profileImage = document.getElementById("profileImage");
+const profileImage = document.getElementById("profileImage");
 const signoutInterface = document.getElementById("signoutInterface");
 const signOutButton = document.getElementById("signOutButton");
 

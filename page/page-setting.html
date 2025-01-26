@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
     <link rel="stylesheet" href="../css/page-setting.css" />
-    <title>Bootstap 5 Responsive Admin Dashboard</title>
+    <title>Task Management</title>
 </head>
 
 <body>
@@ -59,33 +59,45 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
                             <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#signOutModal"><img
-                                src="../image/imglogo.png" alt=""></a>
-                        
+                                    src="../image/imglogo.png" alt=""></a>
+
                             <!-- Modal -->
-                            <div class="modal fade" id="signOutModal" tabindex="-1" aria-labelledby="signOutModalLabel" aria-hidden="true">
-                              <div class="modal-dialog">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <h5 class="modal-title" id="signOutModalLabel">User Profile</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                  </div>
-                                  <div class="modal-body text-center">
-                                    <!-- User Profile Picture -->
-                                    <img src="../image/imglogo.png" alt="User Profile" class="rounded-circle mb-3" width="100"
-                                      height="100">
-                                    <!-- User Name -->
-                                    <h5>Kanha Mao</h5>
-                                    <p class="text-muted">maokanha@gmail.com</p>
-                                  </div>
-                                  <div class="modal-footer">
-                                    <!-- Sign Out Button -->
-                                    <button type="button" class="btn btn-danger"> <a href="../index.html">Sign Out</a></button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                  </div>
+                            <div class="modal fade" id="signOutModal" tabindex="-1" aria-labelledby="signOutModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content rounded-4 shadow-lg border-0">
+                                        <div class="modal-header"
+                                            style="background: linear-gradient(135deg, #119ccbc2, #2575fc);">
+                                            <h5 class="modal-title text-white" id="signOutModalLabel">Your Profile</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <!-- User Profile Picture -->
+                                            <img src="../image/imglogo.png" alt="User Profile"
+                                                class="rounded-circle mb-4 border border-4 border-white" width="120"
+                                                height="120">
+                                            <!-- User Info -->
+                                            <h5 class="mb-2 text-dark">Horth Heng</h5>
+                                            <p class="text-muted mb-3">horth.heng@gmail.com</p>
+                                            <p class="text-dark font-italic">Your profile is ready to go!</p>
+                                        </div>
+                                        <div class="modal-footer border-0">
+                                            <!-- Sign Out Button -->
+                                            <button type="button"
+                                                class="btn btn-danger w-100 py-2 rounded-pill hover-shadow">
+                                                <a href="../index.html" class="text-light text-decoration-none">Sign
+                                                    Out</a>
+                                            </button>
+                                            <!-- Close Button -->
+                                            <button type="button"
+                                                class="btn btn-outline-dark w-100 py-2 rounded-pill hover-shadow"
+                                                data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
                                 </div>
-                              </div>
                             </div>
-                            <!--  -->
+                            <!-- End of Modal -->
                     </ul>
                 </div>
             </nav>
@@ -96,14 +108,16 @@
                         <form id="project-form">
                             <div class="mb-3">
                                 <label for="project-name" class="form-label">Project Name</label>
-                                <input type="text" id="project-name" class="form-control" placeholder="Enter project name" required>
+                                <input type="text" id="project-name" class="form-control"
+                                    placeholder="Enter project name" required>
                             </div>
                             <div class="mb-3">
                                 <label for="project-description" class="form-label">Short Description</label>
-                                <textarea id="project-description" class="form-control" placeholder="Provide a short description of this project." rows="4"></textarea>
+                                <textarea id="project-description" class="form-control"
+                                    placeholder="Provide a short description of this project." rows="4"></textarea>
                             </div>
                             <h3>Danger Zone</h3>
-                            <div class="danger-zone">
+                            <div class="danger-zone bg-light">
                                 <div class="mb-3">
                                     <label for="visibility" class="form-label">Visibility</label>
                                     <div class="d-flex align-items-center">
@@ -116,34 +130,37 @@
                                 </div>
                                 <div class="mb-4">
                                     <label for="btn-danger" class="danger">Close Project</label>
-                                    <p>This project will disable workflows & remove it from the list of open projects.</p>
-                                    <button type="button" class="btn btn-danger" id="close-project">Close Project</button>
+                                    <p>This project will disable workflows & remove it from the list of open projects.
+                                    </p>
+                                    <button type="button" class="btn btn-danger" id="close-project">Close
+                                        Project</button>
                                 </div>
                                 <div class="mb-4">
                                     <label class="danger">Delete Project</label>
                                     <p>Once you delete a project there is no going back. Please be certain.</p>
-                                    <button type="button" class="btn btn-danger" id="delete-project">Delete Project</button>
+                                    <button type="button" class="btn btn-danger" id="delete-project">Delete
+                                        Project</button>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button type="submit" class="btn btn-success mb-5">Save Changes</button>
                         </form>
                     </section>
                 </main>
             </div>
 
-        <!-- /#page-content-wrapper -->
-    </div>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        var el = document.getElementById("wrapper");
-        var toggleButton = document.getElementById("menu-toggle");
+            <!-- /#page-content-wrapper -->
+        </div>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            var el = document.getElementById("wrapper");
+            var toggleButton = document.getElementById("menu-toggle");
 
-        toggleButton.onclick = function () {
-            el.classList.toggle("toggled");
-        };
-    </script>
+            toggleButton.onclick = function () {
+                el.classList.toggle("toggled");
+            };
+        </script>
 </body>
 
 </html>

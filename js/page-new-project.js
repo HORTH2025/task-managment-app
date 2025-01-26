@@ -3,7 +3,7 @@ var el = document.getElementById("wrapper");
 var toggleButton = document.getElementById("menu-toggle");
 
 toggleButton.onclick = function () {
-  el.classList.toggle("toggled");
+    el.classList.toggle("toggled");
 };
 //...navbar
 
@@ -24,7 +24,7 @@ document.getElementById('submitProjectBtn').addEventListener('click', function (
                 text: 'Project name already exists. Please choose a different name.',
                 confirmButtonText: 'OK'
             });
-            
+
             return;
         }
 
@@ -90,13 +90,13 @@ document.getElementById('submitProjectBtn').addEventListener('click', function (
         modal.hide();
     } else {
         Swal.fire({
-            icon: 'warning', 
+            icon: 'warning',
             title: 'Empty Project Name',
             text: 'Please enter a valid project name before proceeding.',
             confirmButtonText: 'OK'
         });
     }
-    
+
 });
 
 // Function to open the edit modal and handle editing
@@ -124,7 +124,7 @@ function openEditModal(currentProjectName, projectLink) {
 
             // Close modal
             editModal.hide();
-        }else {
+        } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Invalid Project Name',
@@ -212,11 +212,11 @@ function loadProjectsFromLocalStorage() {
     });
 }
 // Event listener for the search input
-document.getElementById('searchInput').addEventListener('input', function() {
+document.getElementById('searchInput').addEventListener('input', function () {
     const searchTerm = this.value.toLowerCase(); // Get the search term and convert to lowercase
     const tableBody = document.querySelector('table tbody');
     const rows = tableBody.querySelectorAll('tr'); // Get all rows in the table
-  
+
     rows.forEach(row => {
         const projectName = row.querySelector('td:nth-child(2) a').textContent.toLowerCase(); // Get the project name from the second cell
         if (projectName.includes(searchTerm)) {
@@ -225,5 +225,20 @@ document.getElementById('searchInput').addEventListener('input', function() {
             row.style.display = 'none'; // Hide the row if it doesn't match
         }
     });
-  });
-  
+});
+
+const profileImage = document.getElementById("profileImage");
+const signoutInterface = document.getElementById("signoutInterface");
+const signOutButton = document.getElementById("signOutButton");
+
+// Show the sign-out interface when the profile image is clicked
+profileImage.addEventListener("click", () => {
+    signoutInterface.classList.remove("d-none");
+});
+
+// Handle the sign-out button click
+signOutButton.addEventListener("click", () => {
+    // Redirect to the login page or perform other sign-out actions
+    window.location.href = "../index.html"; // Replace "login.html" with your login page
+});
+
