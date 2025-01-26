@@ -38,8 +38,15 @@ header .logo {
 header .logo img {
     height: 50px;
 }
+.nav-buttons .login:hover{
+    background:#007aff;
+}
 .login a {
     color: black;
+    text-decoration: none;
+}
+.login a:hover {
+    color: #fff;
     text-decoration: none;
 }
 .get-started a{
@@ -204,7 +211,10 @@ span{
     justify-content: space-evenly;
     align-items: center;
 }
-
+.footer-top-img img{
+    width: 200px;
+    height: 180px;
+}
 .footer-btn-top{
     padding: 10px 30px;
     background-color: #007aff;
