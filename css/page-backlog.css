@@ -205,6 +205,10 @@
   border: 1.5px solid #DFE4E9;
 
 }
+.add-column-btn {
+  position: fixed;
+  right: 25px;
+}
 
 @media (min-width: 768px) {
   #sidebar-wrapper {

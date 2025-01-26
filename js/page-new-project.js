@@ -11,6 +11,13 @@ toggleButton.onclick = function () {
 document.addEventListener('DOMContentLoaded', function () {
   loadProjectsFromLocalStorage();
 });
+// Add click event listener to all project buttons
+document.querySelectorAll('.project-name-btn').forEach(button => {
+    button.addEventListener('click', function () {
+        const projectName = this.getAttribute('data-project-name'); // Get the project name
+        localStorage.setItem('selectedTaskName', projectName); // Store it in localStorage
+    });
+});
 
 document.getElementById('submitProjectBtn').addEventListener('click', function () {
   const projectName = document.getElementById('projectName').value;
@@ -145,7 +152,7 @@ function loadProjectsFromLocalStorage() {
 
       // Create a link to the project page
       const projectLink = document.createElement('a');
-      projectLink.href = `project.html?name=${encodeURIComponent(project)}`; // Adjust the URL as needed
+      projectLink.href = `../page/page-backlog.html?name=${encodeURIComponent(project)}`; // Adjust the URL as needed
       projectLink.textContent = project;
       projectLink.className = 'project-link';
 
