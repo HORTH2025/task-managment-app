@@ -1,16 +1,18 @@
-*{
+* {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
     box-sizing: border-box;
 
 }
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f8f9fc;
     color: #333;
 }
+
 header {
     background-color: #ffffff;
     padding: 20px;
@@ -28,31 +30,38 @@ header .logo {
     align-items: center;
 
 }
-.logo span{
+
+.logo span {
     font-size: 20px;
     font-weight: bold;
-    color:  #f89c35;
+    color: #f89c35;
     margin: 1px 10px 0 0;
-    
+
 }
+
 header .logo img {
     height: 50px;
 }
-.nav-buttons .login:hover{
-    background:#007aff;
+
+.nav-buttons .login:hover {
+    background: #007aff;
 }
+
 .login a {
     color: black;
     text-decoration: none;
 }
+
 .login a:hover {
     color: #fff;
     text-decoration: none;
 }
-.get-started a{
+
+.get-started a {
     color: white;
     text-decoration: none;
 }
+
 header .nav-buttons {
     display: flex;
     gap: 10px;
@@ -108,7 +117,7 @@ header .nav-buttons .get-started {
     height: 30vh;
     width: 100%;
     text-align: center;
-    padding: 20px;
+    padding: 50px 0 0 0;
     background-color: #D7DEFB;
 }
 
@@ -122,6 +131,7 @@ header .nav-buttons .get-started {
     display: flex;
     justify-content: center;
     gap: 30px;
+    margin-bottom: 15px;
 }
 
 .logos img {
@@ -129,17 +139,18 @@ header .nav-buttons .get-started {
     height: 80px;
     border-radius: 50%;
     background-color: #ffffff;
-    
+
 }
 
-.group-card{
+.group-card {
     height: 50vh;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
 }
+
 .group-card h2 {
     font-size: 24px;
     color: blue;
@@ -154,25 +165,31 @@ header .nav-buttons .get-started {
     border-radius: 10px;
     margin: 30px;
 }
-.group-img{
+
+.group-img {
     margin: 30px;
 }
-.group-card h2{
+
+.group-card h2 {
     width: 300px;
 }
-.group-cards-inner p{
+
+.group-cards-inner p {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 30px;
 }
-span{
+
+span {
     margin: 0 30px 30px 30px;
 }
-.group-cards-icon{
+
+.group-cards-icon {
     margin: 0 30px 30px 30px;
 }
-.testimonials{
+
+.testimonials {
     height: 30vh;
     width: 100%;
     display: flex;
@@ -181,16 +198,19 @@ span{
     align-items: center;
     background: #D7DEFB;
 }
-.testimonials h2{
+
+.testimonials h2 {
     width: 400px;
     color: blue;
     text-align: center;
 }
-.btn a{
+
+.btn a {
     text-decoration: none;
     color: white;
 }
-.testimonials .btn{
+
+.testimonials .btn {
     padding: 10px 30px;
     background-color: #007aff;
     color: #fff;
@@ -200,22 +220,27 @@ span{
     cursor: pointer;
     margin-top: 30px;
 }
-.contact{
+
+.contact {
     height: 20vh;
     width: 100%;
-    
+
 }
-.footer-top{
-    background: #D7DEFB;
+
+.footer-top {
+    height: 30vh;
+    background: #a2b3f5b3;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
 }
-.footer-top-img img{
+
+.footer-top-img img {
     width: 200px;
     height: 180px;
 }
-.footer-btn-top{
+
+.footer-btn-top {
     padding: 10px 30px;
     background-color: #007aff;
     color: #fff;
@@ -225,7 +250,8 @@ span{
     cursor: pointer;
     margin-left: 20px;
 }
-.footer-btn-bottom{
+
+.footer-btn-bottom {
     padding: 10px 30px;
     border: none;
     border-radius: 30px;
@@ -233,47 +259,229 @@ span{
     cursor: pointer;
     margin-left: 20px;
 }
-.footer-btn-bottom a{
+
+.footer-btn-bottom a {
     color: #66666667;
 }
-.footer-top-textleft p{
+
+.footer-top-textleft p {
     color: blue;
-    margin: 20px;}
-.footer-top-textright p{
+    margin: 20px;
+}
+
+.footer-top-textright p {
     color: blue;
-    margin: 20px;}
-.footer-bottom{
-    height: 20vh;
-    background: #0033cc;
+    margin: 20px;
+}
+
+.footer-bottom {
+    height: 10vh;
+    background: #0033cc95;
     display: flex;
     justify-content: end;
     align-items: center;
 }
 
-.footer-bottom p{
+.footer-bottom p {
     color: white;
     padding: 30px;
 }
-@keyframes scroll {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-100%);
- }  }
- 
-.group-card{
-    width: 150px;
-    height: 50px;
-    position: relative;
-    animation: mymove 5s infinite;
-}
-.group-card{
-    height: 50vh;
-    width: 100%;
+
+.learn-more {
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #007aff, #0033cc);
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
     overflow: hidden;
+    position: relative;
+    margin-top: 20px;
 }
-@keyframes mymove {
-    0% {top: 0px; left: -150px;}
-    50% {top: 0px; left: 250px;}
-    100% {top: 0px; left: -150px;}}
+
+.learn-more a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.learn-more ion-icon {
+    font-size: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.learn-more:hover {
+    background: linear-gradient(135deg, #0056b3, #001a66);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.learn-more:hover ion-icon {
+    transform: translateX(5px);
+}
+
+/* Add Focus Outline for Accessibility */
+.learn-more:focus {
+    outline: 2px solid #f89c35;
+    outline-offset: 4px;
+}
+
+b {
+    font-size: 20px;
+}
+
+/* iPhone Mini 12 (375px width) */
+@media screen and (max-width: 375px) {
+    body {
+        font-size: 10px;
+    }
+
+    header {
+        font-size: 10px;
+        flex-direction: column;
+        text-align: center;
+        gap: 5px;
+    }
+
+    header .logo img {
+        height: 40px;
+    }
+
+    .get-started {
+        display: none;
+    }
+
+    header .nav-buttons {
+        height: 6vh;
+        border-radius: 5px;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .group-card {
+        display: none;
+    }
+
+    .hero h1 {
+        font-size: 5px;
+    }
+
+    .hero p {
+        font-size: 0px;
+        margin-bottom: 0px;
+    }
+
+    .hero button {
+       display: none;
+    }
+    .trusted-section{
+        margin-bottom: 50px;
+    }
+    .trusted-section p {
+        font-size: 5px;
+    }
+
+    .testimonials {
+        margin-top: 30px;
+        margin-bottom: 30PX;
+    }
+
+    .testimonials h2 {
+        font-size: 8px;
+        width: auto;
+    }
+
+    .footer-top-img img {
+        width: 50px;
+    }
+
+    .footer-bottom p {
+        font-size: 5px;
+        padding: 5px;
+    }
+}
+
+/* iPad Air 4 (820px width) */
+@media screen and (max-width: 820px) {
+    body {
+        font-size: 16px;
+    }
+
+    header {
+        padding: 10px;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+
+    header .nav-buttons {
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .hero h1 {
+        font-size: 26px;
+        margin-bottom: 15px;
+    }
+
+    .hero p {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .trusted-section {
+        height: 20vh;
+    }
+
+    .trusted-section p {
+        font-size: 18px;
+    }
+
+    .group-card {
+        margin-left: 50px;
+        margin-top: -90px;
+        margin-bottom: -90px;
+    }
+
+    .logos img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .group-cards-inner {
+        width: 75%;
+        margin: 20px auto;
+    }
+
+    .testimonials {
+        height: 20vh;
+        margin-bottom: -120px;
+    }
+
+    .testimonials h2 {
+        font-size: 20px;
+    }
+
+    .footer-top {
+        height: 20vh;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    .footer-top-img img {
+        width: 180px;
+    }
+
+    .footer-bottom p {
+        font-size: 14px;
+    }
+}
