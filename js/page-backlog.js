@@ -6,9 +6,6 @@ var toggleButton = document.getElementById("menu-toggle");
 toggleButton.onclick = function () {
     el.classList.toggle("toggled");
 };
-//... take name 
-
-//...container
 
 //...take name project that select it 
 document.addEventListener('DOMContentLoaded', function () {
@@ -24,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+//...container
 
 // Add item functionality
 document.querySelectorAll('.add-item').forEach(button => {
@@ -59,11 +57,80 @@ document.querySelectorAll('.add-item').forEach(button => {
         };
     });
 });
+// Enable Drag-and-Drop functionality for task items
+document.querySelectorAll('.task-item').forEach(item => {
+    item.setAttribute('draggable', true);
+
+    item.addEventListener('dragstart', (e) => {
+        // Store the dragged item's id and columnId in the dataTransfer object
+        e.dataTransfer.setData('itemId', item.id);
+        e.dataTransfer.setData('itemColumnId', item.closest('.task-column').id);
+        item.style.opacity = '0.5';  // Visual feedback when dragging
+    });
+
+    item.addEventListener('dragend', () => {
+        item.style.opacity = '';  // Reset opacity after dragging
+    });
+});
+
+// Enable drop functionality for task columns
+document.querySelectorAll('.task-column').forEach(column => {
+    column.addEventListener('dragover', (e) => {
+        e.preventDefault();  // Allow dropping by preventing default action
+    });
+
+    column.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const draggedItemId = e.dataTransfer.getData('itemId');
+        const draggedItemColumnId = e.dataTransfer.getData('itemColumnId');
+        const draggedItem = document.getElementById(draggedItemId);
+        const targetColumn = column; // The column where the item is dropped
+        const targetColumnId = targetColumn.id; // The ID of the target column
+
+        // Only move the item if it is being dropped in a different column
+        if (draggedItemColumnId !== targetColumnId) {
+            // Move the dragged item to the new column
+            const taskItems = targetColumn.querySelector('.task-items');
+            taskItems.appendChild(draggedItem);
+
+            // Update the item's columnId in localStorage
+            updateItemColumnInLocalStorage(draggedItemId, targetColumnId);
+
+            // Optionally, update the UI or localStorage with other changes.
+        }
+    });
+});
+
+// Function to update localStorage after moving an item to another column
+function updateItemColumnInLocalStorage(itemId, newColumnId) {
+    let columns = JSON.parse(localStorage.getItem('columns')) || {};
+
+    // Find the item in the previous column and move it to the new column
+    for (let columnId in columns) {
+        let columnItems = columns[columnId];
+        const itemIndex = columnItems.findIndex(item => item.name === itemId);
+        if (itemIndex !== -1) {
+            const [movedItem] = columnItems.splice(itemIndex, 1);  // Remove the item from the old column
+            movedItem.columnId = newColumnId;  // Update the column ID of the item
+
+            // Add the moved item to the new column
+            if (!columns[newColumnId]) {
+                columns[newColumnId] = [];
+            }
+            columns[newColumnId].push(movedItem);
+
+            // Update the localStorage with the new state
+            localStorage.setItem('columns', JSON.stringify(columns));
+            return;
+        }
+    }
+}
 
 // Function to create item element
 function createItemElement(item, columnId) {
     const itemElement = document.createElement('div');
     itemElement.className = 'task-item d-flex justify-content-between align-items-center';
+    itemElement.id = item.name; // Use a unique ID for each item
     itemElement.innerHTML = `
     <span class="item-name" style="cursor: pointer;">${item.name}</span>
     <span class="verification-sign" style="display: ${item.closed ? 'inline' : 'none'};">✔️</span>
@@ -73,7 +140,7 @@ function createItemElement(item, columnId) {
             <li><a class="dropdown-item edit-item" href="#">Edit</a></li>
             <li><a class="dropdown-item delete-item" href="#">Delete</a></li>
             <li><a class="dropdown-item close-item" href="#">Close</a></li>
-            <li><a class="dropdown-item comment-item" href="#" >Comment</a></li>
+            <li><a class="dropdown-item comment-item" href="#">Comment</a></li>
         </ul>
     </div>
 `;
@@ -90,10 +157,17 @@ function createItemElement(item, columnId) {
                 item.comment = commentInput; // Save the comment in the item object
                 commentModal.hide(); // Close the modal
             } else {
-                alert("Comment cannot be empty.");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Empty Comment',
+                    text: 'Please enter a comment before saving.',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#007BFF'
+                });
             }
         };
     });
+
 
     // Add click listener for the "Comment" menu option
     itemElement.querySelector('.comment-item').addEventListener('click', () => {
@@ -108,10 +182,17 @@ function createItemElement(item, columnId) {
                 item.comment = commentInput; // Save the comment in the item object
                 commentModal.hide(); // Close the modal
             } else {
-                alert("Comment cannot be empty.");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Empty Comment',
+                    text: 'Please enter a comment before saving.',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#007BFF'
+                });
             }
         };
     });
+
     // Add event listeners for edit, delete, close, and comment buttons
     itemElement.querySelector('.edit-item').addEventListener('click', function () {
         // Populate the modal fields with the current item data
@@ -140,10 +221,10 @@ function createItemElement(item, columnId) {
     });
 
     itemElement.querySelector('.delete-item').addEventListener('click', function () {
-        if (confirm("Are you sure you want to delete this item?")) {
-            itemElement.remove();
-            updateLocalStorage(); // Update local storage after deletion
-        }
+
+        itemElement.remove();
+        updateLocalStorage();
+
     });
 
     itemElement.querySelector('.close-item').addEventListener('click', function () {
@@ -157,6 +238,18 @@ function createItemElement(item, columnId) {
         document.getElementById('commentText').value = ''; // Clear previous comments
         const commentModal = new bootstrap.Modal(document.getElementById('commentModal'));
         commentModal.show();
+    });
+
+    itemElement.setAttribute('draggable', true);
+
+    itemElement.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('itemId', itemElement.id);
+        e.dataTransfer.setData('itemColumnId', columnId); // Storing the columnId
+        itemElement.style.opacity = '0.5';
+    });
+
+    itemElement.addEventListener('dragend', () => {
+        itemElement.style.opacity = '';
     });
 
     return itemElement;
@@ -186,87 +279,98 @@ function loadColumnsFromLocalStorage() {
     }
 }
 
-// Function to create a new column
+
 document.getElementById('createColumnBtn').addEventListener('click', function () {
-    const columnName = document.getElementById('columnName').value;
-    const selectedColor = document.querySelector('input[name="color"]:checked').id; // Get selected color
+    const columnName = document.getElementById('columnName').value.trim();
+    const selectedColor = document.querySelector('input[name="color"]:checked')?.id;
 
     if (columnName) {
+        // Create a unique ID for the new column
+        const columnId = columnName.toLowerCase().replace(/\s+/g, '-');
+
         const newColumn = document.createElement('div');
         newColumn.className = 'task-column';
-        newColumn.id = columnName.toLowerCase().replace(/\s+/g, '-'); // Create a unique ID
+        newColumn.id = columnId; // Use unique columnId
         newColumn.innerHTML = `
             <div class="column-header">
-                <span class="dot ${selectedColor}"></span> ${columnName}
-                <div class="dropdown float-end">
-                    <button class="btn btn-link dropdown-toggle" id="columnMenuBtn" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="../image/round-circle.png" alt="" class ="img-color">
+                <span class="dot ${selectedColor}"></span> <span class="column-name">${columnName}</span>
+                <div class="column-menu float-end">
+                    <button class="btn btn-link menu-btn" id="menuBtn">
                         <ion-icon name="ellipsis-vertical-outline"></ion-icon>
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="columnMenuBtn">
-                        <li><a class="dropdown-item edit-column" href="#">Edit</a></li>
-                        <li><a class="dropdown-item delete-column" href="#">Delete</a></li>
-                    </ul>
+                    <div class="menu-items" id="menuItems">
+                        <button class="menu-item edit-column" data-bs-toggle="modal" data-bs-target="#editColumnModal">Edit</button>
+                        <button class="menu-item delete-column">Delete</button>
+                    </div>
                 </div>
             </div>
             <div class="task-items"></div>
         `;
 
-        // Create and append the add item button to the new column
-        const addItemButton = document.createElement('button');
-        addItemButton.className = 'add-item';
-        addItemButton.textContent = '+ add item';
-        newColumn.appendChild(addItemButton);
+        // Toggle menu visibility with smooth transition
+        const menuBtn = newColumn.querySelector('.menu-btn');
+        const menuItems = newColumn.querySelector('.menu-items');
 
-        // Add event listener for the new add item button
-        addItemButton.addEventListener('click', function () {
-            const addItemModal = new bootstrap.Modal(document.getElementById('addItemModal'));
-            addItemModal.show();
+        menuBtn.addEventListener('click', function () {
+            menuItems.classList.toggle('show'); // Toggles the 'show' class to trigger smooth visibility change
+        });
 
-            // Save item button click event
-            document.getElementById('saveItemBtn').onclick = function () {
-                const itemName = document.getElementById('newItemName').value;
+        // Add event listener for Edit action
+        newColumn.querySelector('.edit-column').addEventListener('click', function () {
+            const columnNameElement = newColumn.querySelector('.column-name');
+            document.getElementById('editColumnName').value = columnNameElement.textContent;
 
-                if (itemName) {
-                    const newItem = {
-                        name: itemName,
-                        comments: [],
-                        closed: false, // Initialize closed status
-                        columnId: newColumn.id // Store the column ID in the item
-                    };
-
-                    // Append the new item to the corresponding task column
-                    const taskItems = newColumn.querySelector('.task-items');
-                    const itemElement = createItemElement(newItem, newColumn.id);
-                    taskItems.appendChild(itemElement);
-
-                    // Store the item in localStorage
-                    storeItemInLocalStorage(newColumn.id, newItem);
-
-                    // Clear the input and hide the modal
-                    document.getElementById('newItemName').value = '';
-                    addItemModal.hide();
+            document.getElementById('saveColumnChangesBtn').onclick = function () {
+                const newColumnName = document.getElementById('editColumnName').value.trim();
+                if (newColumnName) {
+                    columnNameElement.textContent = newColumnName;
+                    newColumn.id = newColumnName.toLowerCase().replace(/\s+/g, '-');
+                    // Optionally update localStorage here if needed
+                    const editColumnModal = bootstrap.Modal.getInstance(document.getElementById('editColumnModal'));
+                    editColumnModal.hide(); // Hide the modal after saving changes
                 }
             };
         });
 
-        // Handle Edit and Delete actions for the new column
-        const editButton = newColumn.querySelector('.edit-column');
-        const deleteButton = newColumn.querySelector('.delete-column');
-
-        editButton.addEventListener('click', function () {
-            const newColumnName = prompt("Enter new column name:", columnName);
-            if (newColumnName) {
-                newColumn.querySelector('.column-header').childNodes[1].textContent = newColumnName;
-                newColumn.id = newColumnName.toLowerCase().replace(/\s+/g, '-'); // Update ID
-                storeColumnInLocalStorage(newColumnName); // Store the updated column name in localStorage
-            }
+        // Add event listener for Delete action
+        newColumn.querySelector('.delete-column').addEventListener('click', function () {
+            newColumn.remove(); // Remove the column from the DOM
+            removeColumnFromLocalStorage(columnId); // Remove from localStorage
         });
 
-        deleteButton.addEventListener('click', function () {
-            if (confirm(`Are you sure you want to delete the column "${columnName}"?`)) {
-                newColumn.remove(); // Remove the column from the DOM
-                removeColumnFromLocalStorage(columnName); // Remove the column from localStorage
-            }
+        // Add "Add Item" button to the column
+        const addItemButton = document.createElement('button');
+        addItemButton.className = 'add-item';
+        addItemButton.textContent = '+ Add Item';
+        newColumn.appendChild(addItemButton);
+
+        addItemButton.addEventListener('click', function () {
+            const addItemModal = new bootstrap.Modal(document.getElementById('addItemModal'));
+            addItemModal.show();
+
+            document.getElementById('saveItemBtn').onclick = function () {
+                const itemName = document.getElementById('newItemName').value.trim();
+                if (itemName) {
+                    const taskItems = newColumn.querySelector('.task-items');
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'task-item';
+                    itemElement.textContent = itemName;
+                    taskItems.appendChild(itemElement);
+
+                    // Store the item in localStorage for the newly created column
+                    const newItem = {
+                        name: itemName,
+                        comments: [],
+                        closed: false,
+                        columnId: columnId // Store columnId in the item
+                    };
+                    storeItemInLocalStorage(columnId, newItem); // Store the new item
+
+                    document.getElementById('newItemName').value = '';
+                    addItemModal.hide();
+                }
+            };
         });
 
         // Append the new column to the task columns section
@@ -275,12 +379,42 @@ document.getElementById('createColumnBtn').addEventListener('click', function ()
         // Clear the input and hide the modal
         document.getElementById('columnName').value = '';
         const newOptionModal = bootstrap.Modal.getInstance(document.getElementById('newOptionModal'));
-        newOptionModal.hide();
+        if (newOptionModal) newOptionModal.hide();
 
-        // Store the new column in localStorage (if needed)
-        storeColumnInLocalStorage(columnName);
+        // Store the new column in localStorage
+        storeColumnInLocalStorage(columnId);
     }
 });
+
+// Function to load items from localStorage and append them to their respective columns
+function loadColumnsFromLocalStorage() {
+    const columns = JSON.parse(localStorage.getItem('columns')) || {};
+    const taskColumns = document.getElementById('taskColumns');
+
+    // Loop through each column and its items
+    for (const columnId in columns) {
+        const taskItems = document.querySelector(`#${columnId} .task-items`) || createNewColumn(columnId);
+        columns[columnId].forEach(item => {
+            const itemElement = createItemElement(item, columnId);
+            taskItems.appendChild(itemElement);
+        });
+    }
+}
+
+// Create a new column if it does not exist
+function createNewColumn(columnId) {
+    const column = document.createElement('div');
+    column.className = 'task-column';
+    column.id = columnId;
+    column.innerHTML = `
+    <div class="column-header">
+        <span class="column-name">${columnId}</span>
+        <div class="task-items"></div>
+    </div>`;
+    document.getElementById('taskColumns').appendChild(column);
+    return column.querySelector('.task-items');
+}
+
 
 // Function to store new column in localStorage
 function storeColumnInLocalStorage(columnName) {
@@ -294,6 +428,21 @@ function storeColumnInLocalStorage(columnName) {
 // Function to remove column from localStorage
 function removeColumnFromLocalStorage(columnName) {
     let columns = JSON.parse(localStorage.getItem('columns')) || {};
-    delete columns[columnName]; // Delete the column from the columns object
+    delete columns[columnName];
     localStorage.setItem('columns', JSON.stringify(columns));
 }
+
+const profileImage = document.getElementById("profileImage");
+const signoutInterface = document.getElementById("signoutInterface");
+const signOutButton = document.getElementById("signOutButton");
+
+// Show the sign-out interface when the profile image is clicked
+profileImage.addEventListener("click", () => {
+    signoutInterface.classList.remove("d-none");
+});
+
+// Handle the sign-out button click
+signOutButton.addEventListener("click", () => {
+    // Redirect to the login page or perform other sign-out actions
+    window.location.href = "../index.html"; // Replace "login.html" with your login page
+});

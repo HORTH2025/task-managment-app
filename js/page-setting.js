@@ -1,18 +1,16 @@
-document.getElementById("close-project").addEventListener("click", () => {
-    if (confirm("Are you sure you want to close this project?")) {
-      alert("The project has been closed.");
-    }
-  });
-  
-  document.getElementById("delete-project").addEventListener("click", () => {
-    if (confirm("This action cannot be undone. Do you wish to proceed?")) {
-      alert("The project has been deleted.");
-    }
-  });
-  
-  document.getElementById("project-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    alert("Changes have been saved.");
-  });
-  
+const profileImage = document.getElementById("profileImage");
+const signoutInterface = document.getElementById("signoutInterface");
+const signOutButton = document.getElementById("signOutButton");
+
+// Show the sign-out interface when the profile image is clicked
+profileImage.addEventListener("click", () => {
+  signoutInterface.classList.remove("d-none");
+});
+
+// Handle the sign-out button click
+signOutButton.addEventListener("click", () => {
+  // Redirect to the login page or perform other sign-out actions
+  window.location.href = "../index.html"; // Replace "login.html" with your login page
+});
+
   
