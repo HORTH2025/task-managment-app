@@ -1,46 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
     <link rel="stylesheet" href="../css/page-backlog.css" />
-    <title>Task management</title>
+    <title>Task Management</title>
+      <link rel="icon" type="image/svg" href="../image/check-to-slot-solid.svg">
 </head>
-
 <body>
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
         <div class="bg-white" id="sidebar-wrapper">
-            <div class="sidebar-heading text-center py-3 primary-text fs-5 fw-bold text-uppercase border-bottom"
-                id="management">
+            <div class="sidebar-heading text-center py-3 primary-text fs-5 fw-bold text-uppercase border-bottom" id="management">
                 <img src="../image/logo.png" alt="" class="logo-manage">Management
             </div>
             <div class="list-group list-group-flush my-2">
-                <a href="../page/page-backlog.html"
-                    class="list-group-item list-group-item-action bg-transparent second-text active d-flex align-items-center">
-                    <ion-icon name="newspaper-outline" class="me-2 fs-4"></ion-icon>
-                    Backlog
+                <a href="../page/page-backlog.html" class="list-group-item list-group-item-action bg-transparent second-text active d-flex align-items-center">
+                    <ion-icon name="newspaper-outline" class="me-2 fs-4"></ion-icon>Backlog
                 </a>
-                <a href="../page/page-new-project.html"
-                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold d-flex align-items-center">
-                    <ion-icon name="document-text-outline" class="me-2 fs-4"></ion-icon>
-                    New Project
+                <a href="../page/page-new-project.html" class="list-group-item list-group-item-action bg-transparent second-text fw-bold d-flex align-items-center">
+                    <ion-icon name="document-text-outline" class="me-2 fs-4"></ion-icon>New Project
                 </a>
-                <a href="../page/page-setting.html"
-                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold d-flex align-items-center">
-                    <ion-icon name="settings-outline" class="me-2 fs-4"></ion-icon>
-                    Setting
+                <a href="../page/page-roadmap.html" class="list-group-item ...">
+  <ion-icon name="map-outline" class="me-2 fs-4"></ion-icon>Roadmap
+</a>
+                <a href="../page/page-setting.html" class="list-group-item list-group-item-action bg-transparent second-text fw-bold d-flex align-items-center">
+                    <ion-icon name="settings-outline" class="me-2 fs-4"></ion-icon>Setting
                 </a>
             </div>
-
         </div>
-        <!-- /#sidebar-wrapper -->
-
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
@@ -48,20 +41,17 @@
                     <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
                     <h2 class="project-setting fs-2 m-0" id="name-task">Name Task</h2>
                 </div>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
-                            <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#signOutModal"><img
-                                    src="../image/imglogo.png" alt=""></a>
-
-                            <!-- Modal -->
+                            <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#signOutModal">
+                                <img src="../image/imglogo.png" alt="" class="logo-profile">
+                            </a>
+                            <!-- Sign Out Modal -->
+    <!-- Modal -->
                             <div class="modal fade" id="signOutModal" tabindex="-1" aria-labelledby="signOutModalLabel"
                                 aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
@@ -86,172 +76,161 @@
                                             <!-- Sign Out Button -->
                                             <button type="button"
                                                 class="btn btn-danger w-100 py-2 rounded-pill hover-shadow">
-                                                <a href="../index.html" class="text-light text-decoration-none">Sign
+                                                <a href="../index.html" class="text-light text-decoration-none text-align-center">Sign
                                                     Out</a>
                                             </button>
                                             <!-- Close Button -->
                                             <button type="button"
-                                                class="btn btn-outline-dark w-100 py-2 rounded-pill hover-shadow"
+                                                class="btn btn-outline-dark w-100 py-2 rounded-pill hover-shadow text-align-center"
                                                 data-bs-dismiss="modal">Close</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- End of Modal -->
+                        </li>
                     </ul>
                 </div>
             </nav>
-
             <div class="container-fluid px-4">
                 <main class="main-content">
                     <div class="taks">
-
-                        <head>
-                            <div class="actions">
-                                <input type="text" placeholder="Search... " id="searchInput">
-                                <button class="invite-btn" data-bs-toggle="modal" data-bs-target="#inviteTeamModal">+
-                                    Invite team</button>
-                            </div>
-                        </head>
+                        <div class="actions">
+                            <input type="text" placeholder="Search..." id="searchInput">
+                            <button class="invite-btn" data-bs-toggle="modal" data-bs-target="#inviteTeamModal">+ Invite team</button>
+                        </div>
                         <section class="task-columns" id="taskColumns">
                             <div class="task-column" id="todo">
                                 <div class="column-header">
-                                    <span class="dot todo"></span> Todo
-                                </div>
-                                <div class="task-items">
-                                </div>
-                                <button class="add-item">+ add item</button>
-                            </div>
-                            <div class="task-column " id="in-progress">
-                                <div class="column-header">
-                                    <span class="dot in-progress"></span> In progress
+                                    <span class="dot todo"></span>
+                                    <span class="column-name">Todo</span>
+                                    <div class="column-menu">
+                                        <button class="btn btn-link menu-btn"><i class="fas fa-ellipsis-v"></i></button>
+                                        <div class="menu-items">
+                                            <button class="menu-item edit-column" data-bs-toggle="modal" data-bs-target="#editColumnModal">Edit</button>
+                                            <button class="menu-item delete-column">Delete</button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="task-items"></div>
-                                <button class="add-item">+ add item</button>
+                                <button class="add-item">+ Add Item</button>
+                            </div>
+                            <div class="task-column" id="in-progress">
+                                <div class="column-header">
+                                    <span class="dot in-progress"></span>
+                                    <span class="column-name">In Progress</span>
+                                    <div class="column-menu">
+                                        <button class="btn btn-link menu-btn"><i class="fas fa-ellipsis-v"></i></button>
+                                        <div class="menu-items">
+                                            <button class="menu-item edit-column" data-bs-toggle="modal" data-bs-target="#editColumnModal">Edit</button>
+                                            <button class="menu-item delete-column">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="task-items"></div>
+                                <button class="add-item">+ Add Item</button>
                             </div>
                             <div class="task-column" id="done">
                                 <div class="column-header">
-                                    <span class="dot done"></span> Done
+                                    <span class="dot done"></span>
+                                    <span class="column-name">Done</span>
+                                    <div class="column-menu">
+                                        <button class="btn btn-link menu-btn"><i class="fas fa-ellipsis-v"></i></button>
+                                        <div class="menu-items">
+                                            <button class="menu-item edit-column" data-bs-toggle="modal" data-bs-target="#editColumnModal">Edit</button>
+                                            <button class="menu-item delete-column">Delete</button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="task-items"></div>
-                                <button class="add-item">+ add item</button>
+                                <button class="add-item">+ Add Item</button>
                             </div>
-                            <!-- Add Column Button -->
                             <button class="add-column-btn" data-bs-toggle="modal" data-bs-target="#newOptionModal">
                                 <ion-icon name="add-outline" class="icon-sum"></ion-icon>
                             </button>
-
-                            <!-- Modal for New Column -->
-                            <div class="modal fade" id="newOptionModal" tabindex="-1"
-                                aria-labelledby="newOptionModalLabel" aria-hidden="true">
+                            <!-- New Column Modal -->
+                            <div class="modal fade" id="newOptionModal" tabindex="-1" aria-labelledby="newOptionModalLabel" aria-hidden="true">
                                 <div class="modal-dialog w-100">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="newOptionModalLabel">New Column</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <form id="newColumnForm">
                                                 <div class="mb-3">
                                                     <label for="columnName" class="form-label">Column Name *</label>
-                                                    <input type="text" class="form-control" id="columnName"
-                                                        placeholder="Enter column name" required>
+                                                    <input type="text" class="form-control" id="columnName" placeholder="Enter column name" required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Color</label>
                                                     <div class="d-flex gap-1">
-                                                        <input type="radio" class="btn-check" name="color"
-                                                            id="colorRed" autocomplete="off" checked>
-                                                        <label class="btn btn-outline-danger" for="colorBlack"
-                                                            style="width: 0.5rem; height: 1.3rem; border-radius: 50%;"></label>
-                                                        <input type="radio" class="btn-check" name="color"
-                                                            id="colorBlue" autocomplete="off">
-                                                        <label class="btn btn-outline-primary" for="colorBlue"
-                                                            style="width: 0.5rem; height: 1.3rem; border-radius: 50%;"></label>
-                                                        <input type="radio" class="btn-check" name="color"
-                                                            id="colorGreen" autocomplete="off">
-                                                        <label class="btn btn-outline-success" for="colorGreen"
-                                                            style="width: 0.5rem; height: 1.3rem; border-radius: 50%;"></label>
-                                                        <input type="radio" class="btn-check" name="color"
-                                                            id="colorYellow" autocomplete="off">
-                                                        <label class="btn btn-outline-warning" for="colorYellow"
-                                                            style="width: 0.5rem; height: 1.3rem; border-radius: 50%;"></label>
+                                                        <input type="radio" class="btn-check" name="color" id="colorRed" value="red" autocomplete="off" checked>
+                                                        <label class="btn btn-outline-danger" for="colorRed" style="width: 0.5rem; height: 1.3rem; border-radius: 50%;"></label>
+                                                        <input type="radio" class="btn-check" name="color" id="colorBlue" value="blue" autocomplete="off">
+                                                        <label class="btn btn-outline-primary" for="colorBlue" style="width: 0.5rem; height: 1.3rem; border-radius: 50%;"></label>
+                                                        <input type="radio" class="btn-check" name="color" id="colorGreen" value="green" autocomplete="off">
+                                                        <label class="btn btn-outline-success" for="colorGreen" style="width: 0.5rem; height: 1.3rem; border-radius: 50%;"></label>
+                                                        <input type="radio" class="btn-check" name="color" id="colorYellow" value="yellow" autocomplete="off">
+                                                        <label class="btn btn-outline-warning" for="colorYellow" style="width: 0.5rem; height: 1.3rem; border-radius: 50%;"></label>
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="description" class="form-label">Description</label>
-                                                    <textarea class="form-control" id="description" rows="3"
-                                                        placeholder="Visible in group headers and value pickers"></textarea>
+                                                    <textarea class="form-control" id="description" rows="3" placeholder="Visible in group headers and value pickers"></textarea>
                                                 </div>
                                             </form>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Cancel</button>
-                                            <button type="button" class="btn btn-success"
-                                                id="createColumnBtn">Create</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-success" id="createColumnBtn">Create</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Modal for Inviting Team -->
-                            <div class="modal fade" id="inviteTeamModal" tabindex="-1"
-                                aria-labelledby="inviteTeamModalLabel" aria-hidden="true">
+                            <!-- Invite Team Modal -->
+                            <div class="modal fade" id="inviteTeamModal" tabindex="-1" aria-labelledby="inviteTeamModalLabel" aria-hidden="true">
                                 <div class="modal-dialog w-100">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="inviteTeamModalLabel">Invite Team</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <form id="inviteTeamForm">
                                                 <div class="mb-3">
                                                     <label for="email" class="form-label">Email *</label>
-                                                    <input type="email" class="form-control" id="email"
-                                                        placeholder="Enter email" required>
+                                                    <input type="email" class="form-control" id="email" placeholder="Enter email" required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="description" class="form-label">Description</label>
-                                                    <textarea class="form-control" id="description" rows="3"
-                                                        placeholder="Enter description"></textarea>
+                                                    <textarea class="form-control" id="description" rows="3" placeholder="Enter description"></textarea>
                                                 </div>
                                             </form>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Cancel</button>
-                                            <button type="button" class="btn btn-success" id="sendInviteBtn">Send
-                                                Invite</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-success" id="sendInviteBtn">Send Invite</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Modal Edit name -->
-                            <div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel"
-                                aria-hidden="true">
+                            <!-- Edit Project Modal -->
+                            <div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
                                 <div class="modal-dialog w-100">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="projectModalLabel">Edit Project</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <!-- Form for Editing Project Details -->
                                             <form id="editProjectForm">
                                                 <div class="mb-3">
                                                     <label for="projectName" class="form-label">Project Name</label>
-                                                    <input type="text" class="form-control" id="projectName"
-                                                        placeholder="Enter project name" required>
+                                                    <input type="text" class="form-control" id="projectName" placeholder="Enter project name" required>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="projectDescription"
-                                                        class="form-label">Description</label>
-                                                    <textarea class="form-control" id="projectDescription" rows="4"
-                                                        placeholder="Enter project description"></textarea>
+                                                    <label for="projectDescription" class="form-label">Description</label>
+                                                    <textarea class="form-control" id="projectDescription" rows="4" placeholder="Enter project description"></textarea>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="projectStatus" class="form-label">Status</label>
@@ -264,50 +243,64 @@
                                             </form>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Cancel</button>
-                                            <button type="button" class="btn btn-success" id="saveChangesBtn">Save
-                                                Changes</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-success" id="saveChangesBtn">Save Changes</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- Comment Modal -->
-                            <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel"
-                                aria-hidden="true">
+                            <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered w-100">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="commentModalLabel">Add a Comment</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <form id="commentForm">
                                                 <div class="mb-3">
                                                     <label for="commentInput" class="form-label">Your Comment</label>
-                                                    <textarea class="form-control" id="commentInput" rows="10"
-                                                        placeholder="Enter your comment..."></textarea>
+                                                    <textarea class="form-control" id="commentInput" rows="10" placeholder="Enter your comment..."></textarea>
                                                 </div>
                                             </form>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-secondary"
-                                                data-bs-dismiss="modal">Cancel</button>
-                                            <button type="button" class="btn btn-primary" id="saveCommentBtn">Submit
-                                                Comment</button>
+                                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-primary" id="saveCommentBtn">Submit Comment</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
+                            <!-- Due Date Modal -->
+                            <div class="modal fade" id="dueDateModal" tabindex="-1" aria-labelledby="dueDateModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered w-100">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="dueDateModalLabel">Set Due Date</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="dueDateForm">
+                                                <div class="mb-3">
+                                                    <label for="dueDateInput" class="form-label">Due Date</label>
+                                                    <input type="date" class="form-control" id="dueDateInput" required>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-primary" id="saveDueDateBtn">Save Due Date</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </section>
                     </div>
                 </main>
             </div>
         </div>
     </div>
-    <!-- /#page-content-wrapper -->
     <!-- Add Item Modal -->
     <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered w-100">
@@ -316,18 +309,22 @@
                     <h5 class="modal-title d-flex align-items-center" id="addItemModalLabel">
                         <i class="bi bi-plus-circle me-2"></i> Add New Item
                     </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="addItemForm">
                         <div class="mb-3">
                             <label for="newItemName" class="form-label">Item Name</label>
-                            <input type="text" id="newItemName" class="form-control" placeholder="Enter item name"
-                                required />
-                            <small class="form-text text-muted">
-                                Please ensure the name is unique and descriptive.
-                            </small>
+                            <input type="text" id="newItemName" class="form-control" placeholder="Enter item name" required />
+                            <small class="form-text text-muted">Please ensure the name is unique and descriptive.</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="priority" class="form-label">Priority</label>
+                            <select class="form-select" id="priority">
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                            </select>
                         </div>
                     </form>
                 </div>
@@ -343,8 +340,7 @@
         </div>
     </div>
     <!-- Edit Column Name Modal -->
-    <div class="modal fade" id="editColumnModal" tabindex="-1" aria-labelledby="editColumnModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="editColumnModal" tabindex="-1" aria-labelledby="editColumnModalLabel" aria-hidden="true">
         <div class="modal-dialog w-100">
             <div class="modal-content">
                 <div class="modal-header">
@@ -363,15 +359,10 @@
         </div>
     </div>
 
-
-
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script src="../js/page-backlog.js"></script>
-    <script>
-
-    </script>
 </body>
-
 </html>

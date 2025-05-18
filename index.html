@@ -1,95 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Task Management</title>
-  <link rel="stylesheet" href="css/styel.css">
-</head>
-<body>
-  <header>
-    <div class="logo">
-      <img src="image/logo.jpg" alt="Logo">
-      <p>MANAGEMENT</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="icon" type="image/svg" href="../image/check-to-slot-solid.svg">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+    <link rel="stylesheet" href="css/styel.css" />
+  </head>
+  <body>
+    <div class="hero-section">
+      <div class="container text-center">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <h1 class="display-4 fw-bold mb-4">Master Your Tasks</h1>
+            <p class="lead mb-5">
+              Streamline your workflow with our powerful task management
+              solution. Organize, track, and complete tasks efficiently.
+            </p>
+            <div class="nav-buttons">
+              <a href="page/log-in.html" class="btn btn-outline-primary"
+                >Login</a
+              >
+              <a href="page/log-in.html" class="btn btn-primary">
+                Get Started <i class="fas fa-arrow-right ms-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="nav-buttons">
-      <button class="login">
-        <a href="page/log-in.html">Login</a>
-      </button>
-      <button class="get-started">
-        <a href="page/sign-up.html">Get Started <ion-icon name="arrow-forward-outline"></ion-icon></a>
-      </button>
-    </div>
-  </header>
+    <section class="group-card">
+      <div class="container">
+        <h2 class="text-center mb-5">Why Choose Us?</h2>
+        <div class="group-cards-inner">
+          <div class="card">
+            <i class="fas fa-tasks"></i>
+            <h3>Task Organization</h3>
+            <p>
+              Easily categorize and prioritize tasks to stay focused and
+              productive.
+            </p>
+          </div>
+          <div class="card">
+            <i class="fas fa-users"></i>
+            <h3>Team Collaboration</h3>
+            <p>Seamlessly collaborate with your team in real-time.</p>
+          </div>
+          <div class="card">
+            <i class="fas fa-chart-line"></i>
+            <h3>Progress Tracking</h3>
+            <p>Monitor your progress with insightful analytics and reports.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <div class="hero">
-    <h1 style="font-size: 35px;">Work smarter with the <br>task management platform</h1>
-    <p style="font-size: 20px;">Plan, manage and track all your team’s tasks in one flexible platform.<br>What do you want to manage?</p>
-  </div>
+    <section class="testimonials">
+      <div class="container">
+        <h2>What Our Users Say</h2>
+        <div class="d-flex flex-wrap justify-content-center">
+          <div class="testimonial-card">
+            <p>
+              "This tool has transformed how we manage projects. It's intuitive
+              and powerful!"
+            </p>
+            <h4>Horth Heng, Project Manager</h4>
+          </div>
+          <div class="testimonial-card">
+            <p>
+              "I love the collaboration features. Our team is more productive
+              than ever."
+            </p>
+            <h4>Khana Moa, Team Lead</h4>
+          </div>
+        </div>
+        <a href="page/sign-up.html" class="btn btn-primary mt-5">
+          Join Now <ion-icon name="arrow-forward-outline"></ion-icon>
+        </a>
+      </div>
+    </section>
 
-  <div class="trusted-section">
-    <p style="font-size: 20px;">Trusted by 225,000+ customers worldwide</p>
-    <div class="logos">
-      <img src="image/pnc.jpg" alt="Logo 1">
-      <img src="image/style pnc.jpg" alt="Logo 2">
-    </div>
-  </div>
-  
-  <div class="group-card">
-    <h2>Why customers love 
-      Task Management.com</h2>
-    <div class="group-img">
-      <ion-icon name="chevron-forward-outline" style="color: rgba(0, 0, 255, 0.616); font-size: 40px;"></ion-icon>
-    </div>
-    <div class="group-cards-inner">
-      <p>A new transparent and efficient way to organize all of our companies tasks"
-      <br></p>
-      <span>Horth Heng | Reviewed on G2</span>
-      <div class="group-cards-icon">
-        <ion-icon name="star" style="color: yellow;font-size: 20px;"></ion-icon>
-        <ion-icon name="star" style="color: yellow;font-size: 20px;"></ion-icon>
-        <ion-icon name="star" style="color: yellow;font-size: 20px;"></ion-icon>
-        <ion-icon name="star" style="color: yellow;font-size: 20px;"></ion-icon>
-        <ion-icon name="star" style="color: yellow;font-size: 20px;"></ion-icon>
+    <footer class="footer-top">
+      <div class="container d-flex flex-wrap justify-content-between">
+        <div class="footer-top-textleft">
+          <img src="image/image logo.png" alt="Task Management" />
+          <span> Task Management</span>
+          <p>Empowering teams to achieve more, every day.</p>
+        </div>
+        <div class="footer-top-textright">
+          <p>Ready to transform your workflow?</p>
+          <a href="page/sign-up.html" class="btn btn-primary">Get Started</a>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="testimonials">
-    <h2>Join more than 225,000 customers that manage projects better</h2>
-    
-    <button class="learn-more">
-      <a href="page/sign-up.html">Learn more <ion-icon name="arrow-forward-outline"></ion-icon></a>
-    </button>
+    </footer>
 
-  </div>
-  <div class="contact"></div>
-  <div class="footer">
-    <div class="footer-top">
-      <div class="footer-top-img">
-        <img src="image/image logo.png" alt="">
-      </div>
-      <div class="footer-top-textleft">
-        <p><b>Home </b></p>
-        <p><b>My Work</b></p>
-        <p><b>Name Task</b></p>
-      </div>
-      <div class="footer-top-textright">
-        <p><b>Dashboard</b></p>
-        <p><b>Favorite</b></p>
-        <p><b>Profile </b></p>
-      </div>
-      <div class="btn">
-      </div>
-    </div>
     <div class="footer-bottom">
-      <p style="font-size: 20px;">Contact us</p>
-      <ion-icon name="logo-facebook" style="font-size: 40px; color: white; padding: 20px;"></ion-icon>
-      <ion-icon name="logo-google" style="font-size: 40px; color: white; padding: 20px;"></ion-icon>
-      <ion-icon name="logo-linkedin" style="font-size: 40px; color: white; padding: 20px;"></ion-icon>
-      <ion-icon name="mail" style="font-size: 50px; color: white; padding: 10px;"></ion-icon>
-  </div>
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-<script src="js/home.js"></script>
-</body>
+      <p>
+        © <span id="current-year"></span> Task Management. All rights reserved.
+      </p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="server.js"></script>
+  </body>
 </html>

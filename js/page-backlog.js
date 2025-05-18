@@ -1,448 +1,498 @@
+// Sidebar toggle
+const wrapper = document.getElementById("wrapper");
+const toggleButton = document.getElementById("menu-toggle");
+toggleButton.onclick = () => wrapper.classList.toggle("toggled");
 
-//... navbar
-var el = document.getElementById("wrapper");
-var toggleButton = document.getElementById("menu-toggle");
+// Task Management
+let currentColumnId = null;
+let currentColumnElement = null;
+const columnsKey = `columns_${window.location.search}`; // Unique per project
 
-toggleButton.onclick = function () {
-    el.classList.toggle("toggled");
-};
-
-//...take name project that select it 
-document.addEventListener('DOMContentLoaded', function () {
-    // Get the project name from the query parameter
+// Load project name and data
+document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const projectName = urlParams.get('name');
-
     const nameTaskElement = document.getElementById('name-task');
+    if (projectName) nameTaskElement.textContent = projectName;
 
-    if (projectName) {
-        nameTaskElement.textContent = projectName;
+    loadColumnsFromLocalStorage();
+});
+
+// Add item
+document.addEventListener('click', e => {
+    if (e.target.closest('.add-item')) {
+        currentColumnId = e.target.closest('.task-column').id;
+        const modal = new bootstrap.Modal(document.getElementById('addItemModal'));
+        document.getElementById('addItemModalLabel').textContent = 'Add New Item';
+        document.getElementById('addItemForm').reset();
+        modal.show();
     }
 });
 
-
-//...container
-
-// Add item functionality
-document.querySelectorAll('.add-item').forEach(button => {
-    button.addEventListener('click', function () {
-        const columnId = this.parentElement.id;
-        const addItemModal = new bootstrap.Modal(document.getElementById('addItemModal'));
-        addItemModal.show();
-
-        // Save item button click event
-        document.getElementById('saveItemBtn').onclick = function () {
-            const itemName = document.getElementById('newItemName').value;
-
-            if (itemName) {
-                const newItem = {
-                    name: itemName,
-                    comments: [],
-                    closed: false, // Initialize closed status
-                    columnId: columnId // Store the column ID in the item
-                };
-
-                // Append the new item to the corresponding task column
-                const taskItems = document.querySelector(`#${columnId} .task-items`);
-                const itemElement = createItemElement(newItem, columnId);
-                taskItems.appendChild(itemElement);
-
-                // Store the item in localStorage
-                storeItemInLocalStorage(columnId, newItem);
-
-                // Clear the input and hide the modal
-                document.getElementById('newItemName').value = '';
-                addItemModal.hide();
-            }
-        };
-    });
-});
-// Enable Drag-and-Drop functionality for task items
-document.querySelectorAll('.task-item').forEach(item => {
-    item.setAttribute('draggable', true);
-
-    item.addEventListener('dragstart', (e) => {
-        // Store the dragged item's id and columnId in the dataTransfer object
-        e.dataTransfer.setData('itemId', item.id);
-        e.dataTransfer.setData('itemColumnId', item.closest('.task-column').id);
-        item.style.opacity = '0.5';  // Visual feedback when dragging
-    });
-
-    item.addEventListener('dragend', () => {
-        item.style.opacity = '';  // Reset opacity after dragging
-    });
-});
-
-// Enable drop functionality for task columns
-document.querySelectorAll('.task-column').forEach(column => {
-    column.addEventListener('dragover', (e) => {
-        e.preventDefault();  // Allow dropping by preventing default action
-    });
-
-    column.addEventListener('drop', (e) => {
-        e.preventDefault();
-        const draggedItemId = e.dataTransfer.getData('itemId');
-        const draggedItemColumnId = e.dataTransfer.getData('itemColumnId');
-        const draggedItem = document.getElementById(draggedItemId);
-        const targetColumn = column; // The column where the item is dropped
-        const targetColumnId = targetColumn.id; // The ID of the target column
-
-        // Only move the item if it is being dropped in a different column
-        if (draggedItemColumnId !== targetColumnId) {
-            // Move the dragged item to the new column
-            const taskItems = targetColumn.querySelector('.task-items');
-            taskItems.appendChild(draggedItem);
-
-            // Update the item's columnId in localStorage
-            updateItemColumnInLocalStorage(draggedItemId, targetColumnId);
-
-            // Optionally, update the UI or localStorage with other changes.
-        }
-    });
-});
-
-// Function to update localStorage after moving an item to another column
-function updateItemColumnInLocalStorage(itemId, newColumnId) {
-    let columns = JSON.parse(localStorage.getItem('columns')) || {};
-
-    // Find the item in the previous column and move it to the new column
-    for (let columnId in columns) {
-        let columnItems = columns[columnId];
-        const itemIndex = columnItems.findIndex(item => item.name === itemId);
-        if (itemIndex !== -1) {
-            const [movedItem] = columnItems.splice(itemIndex, 1);  // Remove the item from the old column
-            movedItem.columnId = newColumnId;  // Update the column ID of the item
-
-            // Add the moved item to the new column
-            if (!columns[newColumnId]) {
-                columns[newColumnId] = [];
-            }
-            columns[newColumnId].push(movedItem);
-
-            // Update the localStorage with the new state
-            localStorage.setItem('columns', JSON.stringify(columns));
-            return;
-        }
+// Save item
+document.getElementById('saveItemBtn').addEventListener('click', () => {
+    const itemName = document.getElementById('newItemName').value.trim();
+    const priority = document.getElementById('priority').value;
+    if (!itemName) {
+        Swal.fire({ icon: 'warning', title: 'Empty Name', text: 'Please enter an item name.', confirmButtonColor: '#0366d6' });
+        return;
     }
-}
 
-// Function to create item element
-function createItemElement(item, columnId) {
+    const newItem = {
+        id: `item-${Date.now()}`,
+        name: itemName,
+        comments: [],
+        closed: false,
+        labels: [],
+        assignees: [],
+        dueDate: null,
+        priority: priority,
+        columnId: currentColumnId
+    };
+
+    const taskItems = document.querySelector(`#${currentColumnId} .task-items`);
+    taskItems.appendChild(createItemElement(newItem));
+    storeItemInLocalStorage(currentColumnId, newItem);
+
+    document.getElementById('addItemForm').reset();
+    bootstrap.Modal.getInstance(document.getElementById('addItemModal')).hide();
+});
+
+// Drag-and-Drop
+document.addEventListener('dragover', e => {
+    if (e.target.closest('.task-column')) e.preventDefault();
+});
+
+document.addEventListener('drop', e => {
+    if (!e.target.closest('.task-column')) return;
+    e.preventDefault();
+    const itemId = e.dataTransfer.getData('itemId');
+    const sourceColumnId = e.dataTransfer.getData('itemColumnId');
+    const targetColumnId = e.target.closest('.task-column').id;
+    if (sourceColumnId !== targetColumnId) {
+        const item = document.getElementById(itemId);
+        e.target.closest('.task-column').querySelector('.task-items').appendChild(item);
+        updateItemColumnInLocalStorage(itemId, sourceColumnId, targetColumnId);
+    }
+});
+function createItemElement(item) {
     const itemElement = document.createElement('div');
     itemElement.className = 'task-item d-flex justify-content-between align-items-center';
-    itemElement.id = item.name; // Use a unique ID for each item
+    itemElement.id = item.id;
+    itemElement.draggable = true;
     itemElement.innerHTML = `
-    <span class="item-name" style="cursor: pointer;">${item.name}</span>
-    <span class="verification-sign" style="display: ${item.closed ? 'inline' : 'none'};">✔️</span>
-    <div class="dropdown">
-        <box-icon name='dots-vertical-rounded' class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></box-icon>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item edit-item" href="#">Edit</a></li>
-            <li><a class="dropdown-item delete-item" href="#">Delete</a></li>
-            <li><a class="dropdown-item close-item" href="#">Close</a></li>
-            <li><a class="dropdown-item comment-item" href="#">Comment</a></li>
-        </ul>
-    </div>
-`;
-    // Add click listener for the item's name to view the comment
-    itemElement.querySelector('.item-name').addEventListener('click', () => {
-        const commentModal = new bootstrap.Modal(document.getElementById('commentModal'));
-        document.getElementById('commentInput').value = item.comment || ''; // Pre-fill with existing comment if any
-        commentModal.show();
+        <div class="item-content">
+            <span class="item-name" style="cursor: pointer;">${item.name}</span>
+            <div class="item-meta">
+                ${item.labels.map(label => `<span class="badge bg-${label.color}">${label.name}</span>`).join(' ')}
+                ${item.priority ? `<span class="badge bg-${item.priority === 'high' ? 'danger' : item.priority === 'medium' ? 'warning' : 'success'}">${item.priority}</span>` : ''}
+                ${item.assignees.length ? `<span class="assignee"><i class="fas fa-user"></i> ${item.assignees.join(', ')}</span>` : ''}
+                ${item.dueDate ? `<span class="due-date"><i class="fas fa-calendar-alt"></i> ${new Date(item.dueDate).toLocaleDateString()}</span>` : ''}
+            </div>
+        </div>
+        <span class="verification-sign" style="display: ${item.closed ? 'inline' : 'none'}; font-size: 1.2em;">✔️</span>
+        <div class="dropdown professional-dropdown">
+            <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-ellipsis-v"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                <li class="dropdown-header">Manage Item</li>
+                <li>
+                    <a class="dropdown-item edit-item" href="#" role="button">
+                        <i class="fas fa-edit me-2"></i> Edit
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item close-item" href="#" role="button">
+                        <i class="fas fa-${item.closed ? 'undo' : 'check'} me-2"></i> ${item.closed ? 'Reopen' : 'Close'}
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item delete-item" href="#" role="button">
+                        <i class="fas fa-trash me-2"></i> Delete
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li class="dropdown-header">Add Details</li>
+                <li>
+                    <a class="dropdown-item comment-item" href="#" role="button">
+                        <i class="fas fa-comment me-2"></i> Comment
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item label-item" href="#" role="button">
+                        <i class="fas fa-tag me-2"></i> Add Label
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item assignee-item" href="#" role="button">
+                        <i class="fas fa-user-plus me-2"></i> Assign
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item due-date-item" href="#" role="button">
+                        <i class="fas fa-calendar-alt me-2"></i> Set Due Date
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item priority-item" href="#" role="button">
+                        <i class="fas fa-exclamation-circle me-2"></i> Set Priority
+                    </a>
+                </li>
+            </ul>
+        </div>
+    `;
 
-        // Save the comment when the save button is clicked
-        document.getElementById('saveCommentBtn').onclick = () => {
-            const commentInput = document.getElementById('commentInput').value.trim();
-            if (commentInput) {
-                item.comment = commentInput; // Save the comment in the item object
-                commentModal.hide(); // Close the modal
-            } else {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Empty Comment',
-                    text: 'Please enter a comment before saving.',
-                    confirmButtonText: 'OK',
-                    confirmButtonColor: '#007BFF'
-                });
-            }
-        };
+    // Drag events
+    itemElement.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('itemId', item.id);
+        e.dataTransfer.setData('itemColumnId', item.columnId);
+        itemElement.classList.add('dragging');
     });
+    itemElement.addEventListener('dragend', () => itemElement.classList.remove('dragging'));
 
-
-    // Add click listener for the "Comment" menu option
+    // Item actions
+    itemElement.querySelector('.item-name').addEventListener('click', () => editItem(item, itemElement));
+    itemElement.querySelector('.edit-item').addEventListener('click', () => editItem(item, itemElement));
+    itemElement.querySelector('.delete-item').addEventListener('click', () => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This item will be deleted permanently.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d73a49',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Delete'
+        }).then(result => {
+            if (result.isConfirmed) {
+                itemElement.remove();
+                removeItemFromLocalStorage(item.id, item.columnId);
+            }
+        });
+    });
+    itemElement.querySelector('.close-item').addEventListener('click', () => {
+        item.closed = !item.closed;
+        itemElement.querySelector('.verification-sign').style.display = item.closed ? 'inline' : 'none';
+        itemElement.querySelector('.close-item').innerHTML = `<i class="fas fa-${item.closed ? 'undo' : 'check'} me-2"></i> ${item.closed ? 'Reopen' : 'Close'}`;
+        updateLocalStorage(item);
+    });
     itemElement.querySelector('.comment-item').addEventListener('click', () => {
-        const commentModal = new bootstrap.Modal(document.getElementById('commentModal'));
-        document.getElementById('commentInput').value = item.comment || ''; // Pre-fill with existing comment if any
-        commentModal.show();
-
-        // Save the comment when the save button is clicked
+        const modal = new bootstrap.Modal(document.getElementById('commentModal'));
+        document.getElementById('commentInput').value = '';
+        modal.show();
         document.getElementById('saveCommentBtn').onclick = () => {
-            const commentInput = document.getElementById('commentInput').value.trim();
-            if (commentInput) {
-                item.comment = commentInput; // Save the comment in the item object
-                commentModal.hide(); // Close the modal
+            const comment = document.getElementById('commentInput').value.trim();
+            if (comment) {
+                item.comments.push(`${new Date().toLocaleString()}: ${comment}`);
+                updateLocalStorage(item);
+                modal.hide();
             } else {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Empty Comment',
-                    text: 'Please enter a comment before saving.',
-                    confirmButtonText: 'OK',
-                    confirmButtonColor: '#007BFF'
-                });
+                Swal.fire({ icon: 'warning', title: 'Empty Comment', text: 'Please enter a comment.', confirmButtonColor: '#0366d6' });
             }
         };
     });
-
-    // Add event listeners for edit, delete, close, and comment buttons
-    itemElement.querySelector('.edit-item').addEventListener('click', function () {
-        // Populate the modal fields with the current item data
-        document.getElementById('projectName').value = item.name;
-
-        // Show the modal
-        const projectModal = new bootstrap.Modal(document.getElementById('projectModal'));
-        projectModal.show();
-
-        // Save changes to the item when the "Save Changes" button is clicked
-        document.getElementById('saveChangesBtn').onclick = function () {
-            const newName = document.getElementById('projectName').value;
-
-            // Update the item properties
-            item.name = newName;
-
-            // Update the UI
-            itemElement.querySelector('span').textContent = newName;
-
-            // Update local storage
-            updateLocalStorage();
-
-            // Hide the modal
-            projectModal.hide();
+    itemElement.querySelector('.label-item').addEventListener('click', () => {
+        const modal = new bootstrap.Modal(document.getElementById('newOptionModal'));
+        document.getElementById('newOptionModalLabel').textContent = 'Add Label';
+        document.getElementById('newColumnForm').reset();
+        modal.show();
+        document.getElementById('createColumnBtn').onclick = () => {
+            const labelName = document.getElementById('columnName').value.trim();
+            const color = document.querySelector('input[name="color"]:checked')?.value || 'blue';
+            if (labelName) {
+                item.labels.push({ name: labelName, color });
+                updateLocalStorage(item);
+                itemElement.replaceWith(createItemElement(item));
+                modal.hide();
+            }
         };
     });
-
-    itemElement.querySelector('.delete-item').addEventListener('click', function () {
-
-        itemElement.remove();
-        updateLocalStorage();
-
+    itemElement.querySelector('.assignee-item').addEventListener('click', () => {
+        const modal = new bootstrap.Modal(document.getElementById('inviteTeamModal'));
+        document.getElementById('inviteTeamModalLabel').textContent = 'Assign User';
+        document.getElementById('inviteTeamForm').reset();
+        modal.show();
+        document.getElementById('sendInviteBtn').onclick = () => {
+            const assignee = document.getElementById('email').value.trim();
+            if (assignee && !item.assignees.includes(assignee)) {
+                item.assignees.push(assignee);
+                updateLocalStorage(item);
+                itemElement.replaceWith(createItemElement(item));
+                modal.hide();
+            }
+        };
     });
-
-    itemElement.querySelector('.close-item').addEventListener('click', function () {
-        item.closed = true; // Mark the item as closed
-        itemElement.querySelector('.verification-sign').style.display = 'inline'; // Show the verification sign
-        updateLocalStorage(); // Update local storage after closing
+    itemElement.querySelector('.due-date-item').addEventListener('click', () => {
+        const modal = new bootstrap.Modal(document.getElementById('dueDateModal'));
+        document.getElementById('dueDateInput').value = item.dueDate || '';
+        modal.show();
+        document.getElementById('saveDueDateBtn').onclick = () => {
+            const dueDate = document.getElementById('dueDateInput').value;
+            if (dueDate) {
+                item.dueDate = dueDate;
+                updateLocalStorage(item);
+                itemElement.replaceWith(createItemElement(item));
+                modal.hide();
+            }
+        };
     });
-
-    itemElement.querySelector('.comment-item').addEventListener('click', function () {
-        currentItem = item; // Set the current item for commenting
-        document.getElementById('commentText').value = ''; // Clear previous comments
-        const commentModal = new bootstrap.Modal(document.getElementById('commentModal'));
-        commentModal.show();
-    });
-
-    itemElement.setAttribute('draggable', true);
-
-    itemElement.addEventListener('dragstart', (e) => {
-        e.dataTransfer.setData('itemId', itemElement.id);
-        e.dataTransfer.setData('itemColumnId', columnId); // Storing the columnId
-        itemElement.style.opacity = '0.5';
-    });
-
-    itemElement.addEventListener('dragend', () => {
-        itemElement.style.opacity = '';
+    itemElement.querySelector('.priority-item').addEventListener('click', () => {
+        const modal = new bootstrap.Modal(document.getElementById('addItemModal'));
+        document.getElementById('addItemModalLabel').textContent = 'Set Priority';
+        document.getElementById('newItemName').value = item.name;
+        document.getElementById('newItemName').disabled = true;
+        document.getElementById('priority').value = item.priority || 'medium';
+        modal.show();
+        document.getElementById('saveItemBtn').onclick = () => {
+            item.priority = document.getElementById('priority').value;
+            updateLocalStorage(item);
+            itemElement.replaceWith(createItemElement(item));
+            modal.hide();
+            document.getElementById('newItemName').disabled = false;
+        };
     });
 
     return itemElement;
 }
 
-// Function to store item in localStorage
-function storeItemInLocalStorage(columnId, item) {
-    let columns = JSON.parse(localStorage.getItem('columns')) || {};
-    if (!columns[columnId]) {
-        columns[columnId] = [];
-    }
-    columns[columnId].push(item);
-    localStorage.setItem('columns', JSON.stringify(columns));
+// Edit item
+function editItem(item, itemElement) {
+    const modal = new bootstrap.Modal(document.getElementById('addItemModal'));
+    document.getElementById('addItemModalLabel').textContent = 'Edit Item';
+    document.getElementById('newItemName').value = item.name;
+    document.getElementById('newItemName').disabled = false;
+    document.getElementById('priority').value = item.priority || 'medium';
+    modal.show();
+    document.getElementById('saveItemBtn').onclick = () => {
+        const newName = document.getElementById('newItemName').value.trim();
+        const priority = document.getElementById('priority').value;
+        if (newName) {
+            item.name = newName;
+            item.priority = priority;
+            updateLocalStorage(item);
+            itemElement.replaceWith(createItemElement(item));
+            modal.hide();
+        }
+    };
 }
 
-// Function to load columns and items from localStorage
-function loadColumnsFromLocalStorage() {
-    const columns = JSON.parse(localStorage.getItem('columns')) || {};
-    const taskColumns = document.getElementById('taskColumns');
-
-    for (const columnId in columns) {
-        const taskItems = document.querySelector(`#${columnId} .task-items`);
-        columns[columnId].forEach(item => {
-            const itemElement = createItemElement(item, columnId);
-            taskItems.appendChild(itemElement);
-        });
-    }
-}
-
-
-document.getElementById('createColumnBtn').addEventListener('click', function () {
+// Add new column
+document.getElementById('createColumnBtn').addEventListener('click', () => {
     const columnName = document.getElementById('columnName').value.trim();
-    const selectedColor = document.querySelector('input[name="color"]:checked')?.id;
+    const color = document.querySelector('input[name="color"]:checked')?.value || 'blue';
+    const description = document.getElementById('description').value.trim();
+    if (!columnName) {
+        Swal.fire({ icon: 'warning', title: 'Empty Name', text: 'Please enter a column name.', confirmButtonColor: '#0366d6' });
+        return;
+    }
 
-    if (columnName) {
-        // Create a unique ID for the new column
-        const columnId = columnName.toLowerCase().replace(/\s+/g, '-');
-
-        const newColumn = document.createElement('div');
-        newColumn.className = 'task-column';
-        newColumn.id = columnId; // Use unique columnId
-        newColumn.innerHTML = `
-            <div class="column-header">
-            <img src="../image/round-circle.png" alt="" class ="img-color">
-                <span class="dot ${selectedColor}"></span> <span class="column-name">${columnName}</span>
-                <div class="column-menu float-end">
-                    <button class="btn btn-link menu-btn" id="menuBtn">
-                        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
-                    </button>
-                    <div class="menu-items" id="menuItems">
-                        <button class="menu-item edit-column" data-bs-toggle="modal" data-bs-target="#editColumnModal">Edit</button>
-                        <button class="menu-item delete-column">Delete</button>
-                    </div>
+    const columnId = `column-${Date.now()}`;
+    const newColumn = document.createElement('div');
+    newColumn.className = 'task-column';
+    newColumn.id = columnId;
+    newColumn.innerHTML = `
+        <div class="column-header">
+            <span class="dot" style="background-color: ${color};"></span>
+            <span class="column-name">${columnName}</span>
+            <div class="column-menu">
+                <button class="btn btn-link menu-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div class="menu-items">
+                    <button class="menu-item edit-column" data-bs-toggle="modal" data-bs-target="#editColumnModal">Edit</button>
+                    <button class="menu-item delete-column">Delete</button>
                 </div>
             </div>
-            <div class="task-items"></div>
-        `;
-
-        // Toggle menu visibility with smooth transition
-        const menuBtn = newColumn.querySelector('.menu-btn');
-        const menuItems = newColumn.querySelector('.menu-items');
-
-        menuBtn.addEventListener('click', function () {
-            menuItems.classList.toggle('show'); // Toggles the 'show' class to trigger smooth visibility change
-        });
-
-        // Add event listener for Edit action
-        newColumn.querySelector('.edit-column').addEventListener('click', function () {
-            const columnNameElement = newColumn.querySelector('.column-name');
-            document.getElementById('editColumnName').value = columnNameElement.textContent;
-
-            document.getElementById('saveColumnChangesBtn').onclick = function () {
-                const newColumnName = document.getElementById('editColumnName').value.trim();
-                if (newColumnName) {
-                    columnNameElement.textContent = newColumnName;
-                    newColumn.id = newColumnName.toLowerCase().replace(/\s+/g, '-');
-                    // Optionally update localStorage here if needed
-                    const editColumnModal = bootstrap.Modal.getInstance(document.getElementById('editColumnModal'));
-                    editColumnModal.hide(); // Hide the modal after saving changes
-                }
-            };
-        });
-
-        // Add event listener for Delete action
-        newColumn.querySelector('.delete-column').addEventListener('click', function () {
-            newColumn.remove(); // Remove the column from the DOM
-            removeColumnFromLocalStorage(columnId); // Remove from localStorage
-        });
-
-        // Add "Add Item" button to the column
-        const addItemButton = document.createElement('button');
-        addItemButton.className = 'add-item';
-        addItemButton.textContent = '+ Add Item';
-        newColumn.appendChild(addItemButton);
-
-        addItemButton.addEventListener('click', function () {
-            const addItemModal = new bootstrap.Modal(document.getElementById('addItemModal'));
-            addItemModal.show();
-
-            document.getElementById('saveItemBtn').onclick = function () {
-                const itemName = document.getElementById('newItemName').value.trim();
-                if (itemName) {
-                    const taskItems = newColumn.querySelector('.task-items');
-                    const itemElement = document.createElement('div');
-                    itemElement.className = 'task-item';
-                    itemElement.textContent = itemName;
-                    taskItems.appendChild(itemElement);
-
-                    // Store the item in localStorage for the newly created column
-                    const newItem = {
-                        name: itemName,
-                        comments: [],
-                        closed: false,
-                        columnId: columnId // Store columnId in the item
-                    };
-                    storeItemInLocalStorage(columnId, newItem); // Store the new item
-
-                    document.getElementById('newItemName').value = '';
-                    addItemModal.hide();
-                }
-            };
-        });
-
-        // Append the new column to the task columns section
-        document.getElementById('taskColumns').appendChild(newColumn);
-
-        // Clear the input and hide the modal
-        document.getElementById('columnName').value = '';
-        const newOptionModal = bootstrap.Modal.getInstance(document.getElementById('newOptionModal'));
-        if (newOptionModal) newOptionModal.hide();
-
-        // Store the new column in localStorage
-        storeColumnInLocalStorage(columnId);
-    }
-});
-
-// Function to load items from localStorage and append them to their respective columns
-function loadColumnsFromLocalStorage() {
-    const columns = JSON.parse(localStorage.getItem('columns')) || {};
-    const taskColumns = document.getElementById('taskColumns');
-
-    // Loop through each column and its items
-    for (const columnId in columns) {
-        const taskItems = document.querySelector(`#${columnId} .task-items`) || createNewColumn(columnId);
-        columns[columnId].forEach(item => {
-            const itemElement = createItemElement(item, columnId);
-            taskItems.appendChild(itemElement);
-        });
-    }
-}
-
-// Create a new column if it does not exist
-function createNewColumn(columnId) {
-    const column = document.createElement('div');
-    column.className = 'task-column';
-    column.id = columnId;
-    column.innerHTML = `
-    <div class="column-header">
-        <span class="column-name">${columnId}</span>
+        </div>
+        ${description ? `<div class="column-description text-muted small">${description}</div>` : ''}
         <div class="task-items"></div>
-    </div>`;
-    document.getElementById('taskColumns').appendChild(column);
-    return column.querySelector('.task-items');
-}
+        <button class="add-item">+ Add Item</button>
+    `;
 
+    newColumn.querySelector('.menu-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const menuItems = newColumn.querySelector('.menu-items');
+        document.querySelectorAll('.menu-items.show').forEach(menu => {
+            if (menu !== menuItems) menu.classList.remove('show');
+        });
+        menuItems.classList.toggle('show');
+    });
 
-// Function to store new column in localStorage
-function storeColumnInLocalStorage(columnName) {
-    let columns = JSON.parse(localStorage.getItem('columns')) || {};
-    if (!columns[columnName]) {
-        columns[columnName] = [];
-    }
-    localStorage.setItem('columns', JSON.stringify(columns));
-}
+    newColumn.querySelector('.edit-column').addEventListener('click', () => {
+        currentColumnElement = newColumn;
+        document.getElementById('editColumnName').value = columnName;
+        const modal = new bootstrap.Modal(document.getElementById('editColumnModal'));
+        modal.show();
+    });
 
-// Function to remove column from localStorage
-function removeColumnFromLocalStorage(columnName) {
-    let columns = JSON.parse(localStorage.getItem('columns')) || {};
-    delete columns[columnName];
-    localStorage.setItem('columns', JSON.stringify(columns));
-}
+    newColumn.querySelector('.delete-column').addEventListener('click', () => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This column and all its items will be deleted.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d73a49',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Delete'
+        }).then(result => {
+            if (result.isConfirmed) {
+                newColumn.remove();
+                removeColumnFromLocalStorage(columnId);
+            }
+        });
+    });
 
-const profileImage = document.getElementById("profileImage");
-const signoutInterface = document.getElementById("signoutInterface");
-const signOutButton = document.getElementById("signOutButton");
-
-// Show the sign-out interface when the profile image is clicked
-profileImage.addEventListener("click", () => {
-    signoutInterface.classList.remove("d-none");
+    document.getElementById('taskColumns').insertBefore(newColumn, document.querySelector('.add-column-btn'));
+    storeColumnInLocalStorage(columnId, { name: columnName, color, description });
+    bootstrap.Modal.getInstance(document.getElementById('newOptionModal')).hide();
 });
 
-// Handle the sign-out button click
-signOutButton.addEventListener("click", () => {
-    // Redirect to the login page or perform other sign-out actions
-    window.location.href = "../index.html"; // Replace "login.html" with your login page
+// Edit column name
+document.getElementById('saveColumnChangesBtn').addEventListener('click', () => {
+    const newName = document.getElementById('editColumnName').value.trim();
+    if (newName && currentColumnElement) {
+        currentColumnElement.querySelector('.column-name').textContent = newName;
+        const columnId = currentColumnElement.id;
+        const columnsData = JSON.parse(localStorage.getItem(columnsKey)) || {};
+        if (columnsData[columnId]) {
+            columnsData[columnId].name = newName;
+            localStorage.setItem(columnsKey, JSON.stringify(columnsData));
+        }
+        bootstrap.Modal.getInstance(document.getElementById('editColumnModal')).hide();
+        currentColumnElement = null;
+    }
+});
+
+// Search
+document.getElementById('searchInput').addEventListener('input', e => {
+    const query = e.target.value.toLowerCase();
+    document.querySelectorAll('.task-item').forEach(item => {
+        const name = item.querySelector('.item-name').textContent.toLowerCase();
+        const labels = Array.from(item.querySelectorAll('.badge')).map(b => b.textContent.toLowerCase()).join(' ');
+        const assignees = item.querySelector('.assignee')?.textContent.toLowerCase() || '';
+        const comments = JSON.parse(localStorage.getItem(columnsKey))?.[item.closest('.task-column').id]?.items?.find(i => i.id === item.id)?.comments.join(' ').toLowerCase() || '';
+        item.style.display = name.includes(query) || labels.includes(query) || assignees.includes(query) || comments.includes(query) ? '' : 'none';
+    });
+});
+
+// LocalStorage Functions
+function storeItemInLocalStorage(columnId, item) {
+    const columns = JSON.parse(localStorage.getItem(columnsKey)) || {};
+    columns[columnId] = columns[columnId] || { name: document.querySelector(`#${columnId} .column-name`)?.textContent || columnId, items: [] };
+    columns[columnId].items = columns[columnId].items || [];
+    columns[columnId].items.push(item);
+    localStorage.setItem(columnsKey, JSON.stringify(columns));
+}
+
+function updateItemColumnInLocalStorage(itemId, sourceColumnId, targetColumnId) {
+    const columns = JSON.parse(localStorage.getItem(columnsKey)) || {};
+    const item = columns[sourceColumnId]?.items.find(i => i.id === itemId);
+    if (item) {
+        columns[sourceColumnId].items = columns[sourceColumnId].items.filter(i => i.id !== itemId);
+        columns[targetColumnId] = columns[targetColumnId] || { name: document.querySelector(`#${targetColumnId} .column-name`)?.textContent || targetColumnId, items: [] };
+        item.columnId = targetColumnId;
+        columns[targetColumnId].items.push(item);
+        localStorage.setItem(columnsKey, JSON.stringify(columns));
+    }
+}
+
+function removeItemFromLocalStorage(itemId, columnId) {
+    const columns = JSON.parse(localStorage.getItem(columnsKey)) || {};
+    if (columns[columnId]) {
+        columns[columnId].items = columns[columnId].items.filter(i => i.id !== itemId);
+        localStorage.setItem(columnsKey, JSON.stringify(columns));
+    }
+}
+
+function updateLocalStorage(updatedItem) {
+    const columns = JSON.parse(localStorage.getItem(columnsKey)) || {};
+    for (const columnId in columns) {
+        const itemIndex = columns[columnId].items.findIndex(i => i.id === updatedItem.id);
+        if (itemIndex !== -1) {
+            columns[columnId].items[itemIndex] = updatedItem;
+            localStorage.setItem(columnsKey, JSON.stringify(columns));
+            return;
+        }
+    }
+}
+
+function storeColumnInLocalStorage(columnId, columnData) {
+    const columns = JSON.parse(localStorage.getItem(columnsKey)) || {};
+    columns[columnId] = { name: columnData.name, color: columnData.color, description: columnData.description, items: [] };
+    localStorage.setItem(columnsKey, JSON.stringify(columns));
+}
+
+function removeColumnFromLocalStorage(columnId) {
+    const columns = JSON.parse(localStorage.getItem(columnsKey)) || {};
+    delete columns[columnId];
+    localStorage.setItem(columnsKey, JSON.stringify(columns));
+}
+
+function loadColumnsFromLocalStorage() {
+    const columns = JSON.parse(localStorage.getItem(columnsKey)) || {};
+    for (const columnId in columns) {
+        let columnElement = document.getElementById(columnId);
+        if (!columnElement && columnId.startsWith('column-')) {
+            // Create custom column
+            columnElement = document.createElement('div');
+            columnElement.className = 'task-column';
+            columnElement.id = columnId;
+            columnElement.innerHTML = `
+                <div class="column-header">
+                    <span class="dot" style="background-color: ${columns[columnId].color || 'blue'};"></span>
+                    <span class="column-name">${columns[columnId].name}</span>
+                    <div class="column-menu">
+                        <button class="btn btn-link menu-btn"><i class="fas fa-ellipsis-v"></i></button>
+                        <div class="menu-items">
+                            <button class="menu-item edit-column" data-bs-toggle="modal" data-bs-target="#editColumnModal">Edit</button>
+                            <button class="menu-item delete-column">Delete</button>
+                        </div>
+                    </div>
+                </div>
+                ${columns[columnId].description ? `<div class="column-description text-muted small">${columns[columnId].description}</div>` : ''}
+                <div class="task-items"></div>
+                <button class="add-item">+ Add Item</button>
+            `;
+            columnElement.querySelector('.menu-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                const menuItems = columnElement.querySelector('.menu-items');
+                document.querySelectorAll('.menu-items.show').forEach(menu => {
+                    if (menu !== menuItems) menu.classList.remove('show');
+                });
+                menuItems.classList.toggle('show');
+            });
+            columnElement.querySelector('.edit-column').addEventListener('click', () => {
+                currentColumnElement = columnElement;
+                document.getElementById('editColumnName').value = columns[columnId].name;
+                const modal = new bootstrap.Modal(document.getElementById('editColumnModal'));
+                modal.show();
+            });
+            columnElement.querySelector('.delete-column').addEventListener('click', () => {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This column and all its items will be deleted.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d73a49',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Delete'
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        columnElement.remove();
+                        removeColumnFromLocalStorage(columnId);
+                    }
+                });
+            });
+            document.getElementById('taskColumns').insertBefore(columnElement, document.querySelector('.add-column-btn'));
+        }
+        const taskItems = columnElement?.querySelector('.task-items');
+        if (taskItems && columns[columnId].items) {
+            columns[columnId].items.forEach(item => taskItems.appendChild(createItemElement(item)));
+        }
+    }
+}
+
+// Close column menus when clicking outside
+document.addEventListener('click', e => {
+    if (!e.target.closest('.column-menu')) {
+        document.querySelectorAll('.menu-items.show').forEach(menu => menu.classList.remove('show'));
+    }
 });
